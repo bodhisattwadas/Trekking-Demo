@@ -1,0 +1,469 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Trek Adventures — Find Your Next Adventure</title>
+  <!-- Bootstrap 5.3 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" />
+  <!-- Font Awesome 6 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body data-page="home">
+
+  <!-- ========== NAVBAR ========== -->
+  <nav class="main-navbar navbar navbar-expand-lg" data-transparent="true">
+    <div class="container">
+      <a href="index.html" class="navbar-logo navbar-brand">Trek<span>Adventures</span></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+        <div class="navbar-toggler-icon-custom"><span></span><span></span><span></span></div>
+      </button>
+      <div class="collapse navbar-collapse" id="mainNav">
+        <ul class="navbar-nav ms-auto align-items-center gap-1">
+          <li class="nav-item"><a class="nav-link active" data-page="home" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" data-page="treks" href="treks.html">Treks</a></li>
+          <li class="nav-item"><a class="nav-link" href="#destinations">Destinations</a></li>
+          <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+          <li class="nav-item"><a class="btn btn-accent ms-2" href="booking.html">Book a Trek</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ========== HERO SECTION ========== -->
+  <section class="home-hero" style="background-image: url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1800&q=85');">
+    <div class="home-hero__overlay"></div>
+    <div class="container position-relative z-1">
+      <div class="home-hero__content text-center text-white">
+        <div class="hero-eyebrow">
+          <i class="fa-solid fa-shield-halved me-2"></i>Trusted by 5,000+ Adventurers
+        </div>
+        <h1 class="home-hero__title display-2 fw-bold">
+          Find Your Next <em>Adventure</em>
+        </h1>
+        <p class="home-hero__sub lead mx-auto">
+          Explore unforgettable trekking experiences with expert guides across the Himalayas.
+        </p>
+        <div class="home-hero__actions d-flex flex-wrap justify-content-center gap-3 mt-4">
+          <a href="treks.html" class="btn btn-accent btn-lg">
+            Explore Treks <i class="fa-solid fa-arrow-right ms-2"></i>
+          </a>
+          <a href="#treks" class="btn btn-outline-light btn-lg">
+            View Upcoming Dates
+          </a>
+        </div>
+        <!-- Stats Row -->
+        <div class="hero-stats d-flex flex-wrap justify-content-center gap-4 mt-5">
+          <div class="hero-stat-item">
+            <div class="hero-stat-number">50+</div>
+            <div class="hero-stat-label">Treks</div>
+          </div>
+          <div class="hero-stat-divider d-none d-sm-block"></div>
+          <div class="hero-stat-item">
+            <div class="hero-stat-number">5000+</div>
+            <div class="hero-stat-label">Trekkers</div>
+          </div>
+          <div class="hero-stat-divider d-none d-sm-block"></div>
+          <div class="hero-stat-item">
+            <div class="hero-stat-number">8+</div>
+            <div class="hero-stat-label">Years</div>
+          </div>
+          <div class="hero-stat-divider d-none d-sm-block"></div>
+          <div class="hero-stat-item">
+            <div class="hero-stat-number">4.9<i class="fa-solid fa-star ms-1" style="color: var(--accent); font-size: 0.75em;"></i></div>
+            <div class="hero-stat-label">Rating</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Scroll Arrow -->
+    <a href="#treks" class="hero-scroll-arrow" aria-label="Scroll down">
+      <i class="fa-solid fa-chevron-down"></i>
+    </a>
+  </section>
+
+  <!-- ========== UPCOMING TREKS SECTION ========== -->
+  <section id="treks" class="section-treks py-5 bg-light-custom">
+    <div class="container">
+      <!-- Section Heading -->
+      <div class="section-heading text-center mb-5">
+        <span class="section-tag">Popular Treks</span>
+        <h2 class="section-title">Upcoming Trek Expeditions</h2>
+      </div>
+      <!-- Trek Cards -->
+      <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+
+        <!-- Card 1: Sandakphu -->
+        <div class="col">
+          <div class="trek-card card h-100 border-0">
+            <div class="trek-card__img-wrap position-relative overflow-hidden">
+              <img src="https://images.unsplash.com/photo-1571952537-2d8bb8b7e690?w=600&q=80" class="trek-card__img card-img-top" alt="Sandakphu Trek" loading="lazy" />
+              <span class="trek-badge badge-moderate">Moderate</span>
+            </div>
+            <div class="card-body d-flex flex-column p-4">
+              <p class="trek-location mb-1">
+                <i class="fa-solid fa-location-dot me-1"></i>West Bengal
+              </p>
+              <h3 class="trek-title card-title h5 mb-3">Sandakphu Trek</h3>
+              <div class="trek-meta d-flex flex-wrap gap-3 mb-3">
+                <span><i class="fa-regular fa-clock me-1"></i>6 Days</span>
+                <span><i class="fa-solid fa-mountain me-1"></i>Moderate</span>
+              </div>
+              <div class="trek-price-row d-flex align-items-center justify-content-between mb-2">
+                <span class="trek-price">₹14,999</span>
+                <span class="trek-date"><i class="fa-regular fa-calendar me-1"></i>18 Oct 2026</span>
+              </div>
+              <div class="trek-seats mb-3">
+                <i class="fa-solid fa-users me-1"></i>Seats Left: <strong class="text-danger">8</strong>
+              </div>
+              <a href="treks.html" class="btn btn-primary-custom w-100 trek-details-link mt-auto">View Details</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2: Kedarkantha -->
+        <div class="col">
+          <div class="trek-card card h-100 border-0">
+            <div class="trek-card__img-wrap position-relative overflow-hidden">
+              <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&q=80" class="trek-card__img card-img-top" alt="Kedarkantha Trek" loading="lazy" />
+              <span class="trek-badge badge-easy">Easy–Moderate</span>
+            </div>
+            <div class="card-body d-flex flex-column p-4">
+              <p class="trek-location mb-1">
+                <i class="fa-solid fa-location-dot me-1"></i>Uttarakhand
+              </p>
+              <h3 class="trek-title card-title h5 mb-3">Kedarkantha Trek</h3>
+              <div class="trek-meta d-flex flex-wrap gap-3 mb-3">
+                <span><i class="fa-regular fa-clock me-1"></i>5 Days</span>
+                <span><i class="fa-solid fa-mountain me-1"></i>Easy–Moderate</span>
+              </div>
+              <div class="trek-price-row d-flex align-items-center justify-content-between mb-2">
+                <span class="trek-price">₹12,999</span>
+                <span class="trek-date"><i class="fa-regular fa-calendar me-1"></i>25 Oct 2026</span>
+              </div>
+              <div class="trek-seats mb-3">
+                <i class="fa-solid fa-users me-1"></i>Seats Left: <strong>12</strong>
+              </div>
+              <a href="treks.html" class="btn btn-primary-custom w-100 trek-details-link mt-auto">View Details</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 3: Hampta Pass -->
+        <div class="col">
+          <div class="trek-card card h-100 border-0">
+            <div class="trek-card__img-wrap position-relative overflow-hidden">
+              <img src="https://images.unsplash.com/photo-1551632811-561732d1e306?w=600&q=80" class="trek-card__img card-img-top" alt="Hampta Pass Trek" loading="lazy" />
+              <span class="trek-badge badge-moderate">Moderate</span>
+            </div>
+            <div class="card-body d-flex flex-column p-4">
+              <p class="trek-location mb-1">
+                <i class="fa-solid fa-location-dot me-1"></i>Himachal Pradesh
+              </p>
+              <h3 class="trek-title card-title h5 mb-3">Hampta Pass Trek</h3>
+              <div class="trek-meta d-flex flex-wrap gap-3 mb-3">
+                <span><i class="fa-regular fa-clock me-1"></i>5 Days</span>
+                <span><i class="fa-solid fa-mountain me-1"></i>Moderate</span>
+              </div>
+              <div class="trek-price-row d-flex align-items-center justify-content-between mb-2">
+                <span class="trek-price">₹16,499</span>
+                <span class="trek-date"><i class="fa-regular fa-calendar me-1"></i>2 Nov 2026</span>
+              </div>
+              <div class="trek-seats mb-3">
+                <i class="fa-solid fa-users me-1"></i>Seats Left: <strong class="text-danger">6</strong>
+              </div>
+              <a href="treks.html" class="btn btn-primary-custom w-100 trek-details-link mt-auto">View Details</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 4: Valley of Flowers -->
+        <div class="col">
+          <div class="trek-card card h-100 border-0">
+            <div class="trek-card__img-wrap position-relative overflow-hidden">
+              <img src="https://images.unsplash.com/photo-1527489377706-5bf97e608852?w=600&q=80" class="trek-card__img card-img-top" alt="Valley of Flowers Trek" loading="lazy" />
+              <span class="trek-badge badge-moderate">Moderate</span>
+            </div>
+            <div class="card-body d-flex flex-column p-4">
+              <p class="trek-location mb-1">
+                <i class="fa-solid fa-location-dot me-1"></i>Uttarakhand
+              </p>
+              <h3 class="trek-title card-title h5 mb-3">Valley of Flowers</h3>
+              <div class="trek-meta d-flex flex-wrap gap-3 mb-3">
+                <span><i class="fa-regular fa-clock me-1"></i>6 Days</span>
+                <span><i class="fa-solid fa-mountain me-1"></i>Moderate</span>
+              </div>
+              <div class="trek-price-row d-flex align-items-center justify-content-between mb-2">
+                <span class="trek-price">₹15,499</span>
+                <span class="trek-date"><i class="fa-regular fa-calendar me-1"></i>10 Nov 2026</span>
+              </div>
+              <div class="trek-seats mb-3">
+                <i class="fa-solid fa-users me-1"></i>Seats Left: <strong>10</strong>
+              </div>
+              <a href="treks.html" class="btn btn-primary-custom w-100 trek-details-link mt-auto">View Details</a>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /row -->
+
+      <div class="text-center mt-5">
+        <a href="treks.html" class="btn btn-outline-primary-custom btn-lg">
+          View All Treks <i class="fa-solid fa-arrow-right ms-2"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== WHY CHOOSE US SECTION ========== -->
+  <section id="about" class="section-why py-5 bg-white">
+    <div class="container">
+      <div class="section-heading text-center mb-5">
+        <span class="section-tag">Why Us</span>
+        <h2 class="section-title">Why Trekkers Trust Us</h2>
+      </div>
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-4">
+
+        <!-- Feature 1 -->
+        <div class="col">
+          <div class="feature-card text-center p-4 h-100">
+            <div class="feature-icon-wrap mb-4">
+              <i class="fa-solid fa-mountain"></i>
+            </div>
+            <h4 class="feature-title h5 mb-3">Experienced Guides</h4>
+            <p class="feature-desc text-muted mb-0">500+ successful treks led by certified mountain experts with years of Himalayan experience.</p>
+          </div>
+        </div>
+
+        <!-- Feature 2 -->
+        <div class="col">
+          <div class="feature-card text-center p-4 h-100">
+            <div class="feature-icon-wrap mb-4">
+              <i class="fa-solid fa-users"></i>
+            </div>
+            <h4 class="feature-title h5 mb-3">Small Groups</h4>
+            <p class="feature-desc text-muted mb-0">Maximum 16 trekkers per batch for a personal, intimate adventure experience.</p>
+          </div>
+        </div>
+
+        <!-- Feature 3 -->
+        <div class="col">
+          <div class="feature-card text-center p-4 h-100">
+            <div class="feature-icon-wrap mb-4">
+              <i class="fa-solid fa-shield-halved"></i>
+            </div>
+            <h4 class="feature-title h5 mb-3">Safe Adventures</h4>
+            <p class="feature-desc text-muted mb-0">Comprehensive safety protocols with first aid trained guides on every trek.</p>
+          </div>
+        </div>
+
+        <!-- Feature 4 -->
+        <div class="col">
+          <div class="feature-card text-center p-4 h-100">
+            <div class="feature-icon-wrap mb-4">
+              <i class="fa-solid fa-calendar-check"></i>
+            </div>
+            <h4 class="feature-title h5 mb-3">Easy Booking</h4>
+            <p class="feature-desc text-muted mb-0">Simple online booking with flexible cancellation policy and instant confirmation.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== TESTIMONIALS SECTION ========== -->
+  <section class="section-testimonials py-5 bg-light-custom">
+    <div class="container">
+      <div class="section-heading text-center mb-5">
+        <span class="section-tag">Reviews</span>
+        <h2 class="section-title">What Trekkers Say</h2>
+      </div>
+      <div class="row row-cols-1 row-cols-md-3 g-4">
+
+        <!-- Testimonial 1 -->
+        <div class="col">
+          <div class="testimonial-card card h-100 border-0 p-4">
+            <div class="testimonial-stars mb-3">
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+            </div>
+            <p class="testimonial-text mb-4">"The Sandakphu trek was absolutely life-changing! The guides were knowledgeable and the views were breathtaking."</p>
+            <div class="testimonial-author d-flex align-items-center gap-3 mt-auto">
+              <img src="https://i.pravatar.cc/100?img=47" alt="Priya Sharma" class="testimonial-avatar rounded-circle" width="52" height="52" loading="lazy" />
+              <div>
+                <div class="testimonial-name fw-semibold">Priya Sharma</div>
+                <div class="testimonial-trek small text-muted">Sandakphu Trek, Oct 2025</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Testimonial 2 -->
+        <div class="col">
+          <div class="testimonial-card card h-100 border-0 p-4">
+            <div class="testimonial-stars mb-3">
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+            </div>
+            <p class="testimonial-text mb-4">"Kedarkantha in winter snow was magical. Excellent organization and equipment provided. Highly recommended!"</p>
+            <div class="testimonial-author d-flex align-items-center gap-3 mt-auto">
+              <img src="https://i.pravatar.cc/100?img=12" alt="Arjun Mehta" class="testimonial-avatar rounded-circle" width="52" height="52" loading="lazy" />
+              <div>
+                <div class="testimonial-name fw-semibold">Arjun Mehta</div>
+                <div class="testimonial-trek small text-muted">Kedarkantha Trek, Dec 2025</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Testimonial 3 -->
+        <div class="col">
+          <div class="testimonial-card card h-100 border-0 p-4">
+            <div class="testimonial-stars mb-3">
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+            </div>
+            <p class="testimonial-text mb-4">"First time trekker and couldn't have asked for better support. Professional team, stunning trails. Will be back!"</p>
+            <div class="testimonial-author d-flex align-items-center gap-3 mt-auto">
+              <img src="https://i.pravatar.cc/100?img=32" alt="Sneha Patel" class="testimonial-avatar rounded-circle" width="52" height="52" loading="lazy" />
+              <div>
+                <div class="testimonial-name fw-semibold">Sneha Patel</div>
+                <div class="testimonial-trek small text-muted">Hampta Pass Trek, Sep 2025</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== NEWSLETTER SECTION ========== -->
+  <section id="contact" class="section-newsletter py-5" style="background-color: var(--dark);">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-7 text-center text-white">
+          <div class="newsletter-icon mb-3">
+            <i class="fa-regular fa-envelope-open" style="font-size: 2.5rem; color: var(--accent);"></i>
+          </div>
+          <h2 class="newsletter-title h2 fw-bold mb-2">Stay Updated on New Trek Dates</h2>
+          <p class="newsletter-sub text-white-50 mb-4">Get early bird offers and seasonal trek announcements delivered to your inbox.</p>
+          <form class="newsletter-form" novalidate>
+            <div class="input-group input-group-lg newsletter-input-group">
+              <input
+                type="email"
+                class="form-control newsletter-input"
+                placeholder="Enter your email address"
+                aria-label="Email address"
+                required
+              />
+              <button class="btn btn-accent newsletter-btn" type="submit">
+                Subscribe <i class="fa-solid fa-paper-plane ms-2"></i>
+              </button>
+            </div>
+            <p class="mt-3 small text-white-50 mb-0">
+              <i class="fa-solid fa-lock me-1"></i>No spam, ever. Unsubscribe at any time.
+            </p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="main-footer py-5">
+    <div class="container">
+      <div class="row g-4">
+
+        <!-- Col 1: Brand -->
+        <div class="col-lg-3 col-md-6">
+          <a href="index.html" class="footer-logo d-inline-block mb-3">Trek<span>Adventures</span></a>
+          <p class="footer-tagline text-muted mb-4">Your trusted partner for Himalayan adventures. We make the mountains accessible, safely.</p>
+          <div class="footer-socials d-flex gap-3">
+            <a href="#" class="social-icon" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+            <a href="#" class="social-icon" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+            <a href="#" class="social-icon" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+            <a href="#" class="social-icon" aria-label="Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+          </div>
+        </div>
+
+        <!-- Col 2: Quick Links -->
+        <div class="col-lg-2 col-md-6">
+          <h5 class="footer-heading mb-4">Quick Links</h5>
+          <ul class="footer-links list-unstyled mb-0">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="treks.html">Treks</a></li>
+            <li><a href="#about">About Us</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li><a href="#">Blog</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 3: Popular Treks -->
+        <div class="col-lg-3 col-md-6">
+          <h5 class="footer-heading mb-4">Popular Treks</h5>
+          <ul class="footer-links list-unstyled mb-0">
+            <li><a href="treks.html">Sandakphu Trek</a></li>
+            <li><a href="treks.html">Kedarkantha Trek</a></li>
+            <li><a href="treks.html">Hampta Pass Trek</a></li>
+            <li><a href="treks.html">Valley of Flowers</a></li>
+            <li><a href="treks.html">Chopta Trek</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 4: Contact -->
+        <div class="col-lg-4 col-md-6" id="destinations">
+          <h5 class="footer-heading mb-4">Contact</h5>
+          <ul class="footer-contact list-unstyled mb-0">
+            <li class="d-flex gap-3 mb-3">
+              <i class="fa-solid fa-location-dot mt-1 flex-shrink-0"></i>
+              <span>West Bengal, India</span>
+            </li>
+            <li class="d-flex gap-3 mb-3">
+              <i class="fa-solid fa-phone mt-1 flex-shrink-0"></i>
+              <a href="tel:+919876543210">+91 98765 43210</a>
+            </li>
+            <li class="d-flex gap-3">
+              <i class="fa-solid fa-envelope mt-1 flex-shrink-0"></i>
+              <a href="mailto:info@trekadventures.in">info@trekadventures.in</a>
+            </li>
+          </ul>
+        </div>
+
+      </div><!-- /row -->
+
+      <hr class="footer-divider my-4" />
+
+      <!-- Bottom Bar -->
+      <div class="footer-bottom d-flex flex-wrap align-items-center justify-content-between gap-2">
+        <p class="mb-0 text-muted small">&copy; 2026 TrekAdventures. All rights reserved.</p>
+        <div class="d-flex gap-3">
+          <a href="#" class="text-muted small footer-legal-link">Privacy Policy</a>
+          <a href="#" class="text-muted small footer-legal-link">Terms of Service</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========== SCRIPTS ========== -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

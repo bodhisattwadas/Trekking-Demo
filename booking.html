@@ -1,0 +1,420 @@
+﻿
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Book Your Trek — Trek Adventures</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    :root{--primary:#1a5c38;--primary-light:#2d8653;--accent:#c8a96e;--accent-dark:#a8873a;--dark:#1a1a2e;--light-bg:#f8f6f0;--text-muted-custom:#6b7280;}
+    body.booking-page{background:var(--light-bg);font-family:'Inter',sans-serif;}
+    .page-hero-narrow{background:linear-gradient(135deg,var(--primary) 0%,var(--primary-light) 100%);padding:5rem 0 3rem;position:relative;overflow:hidden;}
+    .page-hero-narrow::before{content:'';position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1571952537-2d8bb8b7e690?w=1400&q=60') center/cover no-repeat;opacity:.18;}
+    .page-hero-narrow .breadcrumb-item,.page-hero-narrow .breadcrumb-item a{color:rgba(255,255,255,.75);text-decoration:none;font-size:.875rem;}
+    .page-hero-narrow .breadcrumb-item.active{color:var(--accent);}
+    .page-hero-narrow .breadcrumb-item+.breadcrumb-item::before{color:rgba(255,255,255,.4);}
+    .page-hero-narrow h1{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,4vw,2.8rem);font-weight:700;color:#fff;margin:0;}
+    .booking-form-wrap{background:#fff;border-radius:16px;padding:2.25rem;box-shadow:0 4px 24px rgba(26,92,56,.09);}
+    .section-heading{display:flex;align-items:center;gap:.65rem;font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:700;color:var(--dark);margin-bottom:1.4rem;}
+    .section-heading .icon-badge{width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,var(--primary),var(--primary-light));color:#fff;display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0;}
+    .form-label{font-weight:600;font-size:.875rem;color:var(--dark);margin-bottom:.35rem;}
+    .form-control,.form-select{border:1.5px solid #e5e7eb;border-radius:10px;padding:.65rem 1rem;font-size:.95rem;transition:border-color .2s,box-shadow .2s;}
+    .form-control:focus,.form-select:focus{border-color:var(--primary-light);box-shadow:0 0 0 3px rgba(45,134,83,.12);outline:none;}
+    textarea.form-control{resize:vertical;min-height:80px;}
+    .payment-methods{display:flex;flex-direction:column;gap:.75rem;}
+    .payment-option{display:flex;align-items:center;gap:1rem;padding:1rem 1.25rem;border:2px solid #e5e7eb;border-radius:12px;cursor:pointer;transition:border-color .2s,background .2s,box-shadow .2s;}
+    .payment-option:hover{border-color:var(--primary-light);background:#f0f9f4;}
+    .payment-option.active{border-color:var(--primary);background:#f0f9f4;box-shadow:0 0 0 3px rgba(26,92,56,.1);}
+    .payment-option input[type="radio"]{display:none;}
+    .pay-icon{width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,var(--primary),var(--primary-light));color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;}
+    .pay-info{flex:1;}
+    .pay-info strong{display:block;font-size:.95rem;color:var(--dark);}
+    .pay-info small{color:var(--text-muted-custom);font-size:.8rem;}
+    .pay-check{width:22px;height:22px;border-radius:50%;border:2px solid #d1d5db;display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0;}
+    .payment-option.active .pay-check{background:var(--primary);border-color:var(--primary);color:#fff;font-size:.75rem;font-weight:700;}
+    .btn-primary-custom{background:linear-gradient(135deg,var(--primary),var(--primary-light));color:#fff;border:none;border-radius:12px;font-weight:600;font-size:1.05rem;letter-spacing:.02em;transition:transform .2s,box-shadow .2s,opacity .2s;}
+    .btn-primary-custom:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 8px 24px rgba(26,92,56,.3);color:#fff;}
+    .btn-primary-custom:disabled{opacity:.65;cursor:not-allowed;}
+    .secure-note{text-align:center;font-size:.82rem;color:var(--text-muted-custom);margin-top:.75rem;}
+    .secure-note i{color:var(--primary);margin-right:.3rem;}
+    .booking-summary-card{background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(26,92,56,.09);position:sticky;top:100px;}
+    .summary-header{background:linear-gradient(135deg,var(--primary),var(--primary-light));padding:1.4rem 1.5rem;color:#fff;}
+    .summary-header h6{font-size:.78rem;letter-spacing:.09em;text-transform:uppercase;opacity:.8;margin-bottom:.9rem;font-weight:600;}
+    .summary-trek-info{display:flex;align-items:center;gap:.9rem;}
+    .summary-trek-thumb{width:64px;height:64px;border-radius:10px;object-fit:cover;border:2px solid rgba(255,255,255,.3);flex-shrink:0;}
+    .summary-trek-name{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;margin:0 0 .25rem;}
+    .summary-trek-loc{font-size:.82rem;opacity:.85;margin:0;}
+    .summary-trek-loc i{color:var(--accent);margin-right:.25rem;}
+    .summary-body{padding:1.4rem 1.5rem;}
+    .summary-row{display:flex;justify-content:space-between;align-items:center;padding:.55rem 0;font-size:.9rem;border-bottom:1px solid #f0f0f0;}
+    .summary-row .label{color:var(--text-muted-custom);font-weight:500;}
+    .summary-row .value{font-weight:600;color:var(--dark);text-align:right;}
+    .summary-total{margin-top:.6rem;padding-top:.9rem;border-top:2px solid var(--primary)!important;border-bottom:none!important;}
+    .summary-total .label{font-size:1rem;font-weight:700;color:var(--dark);}
+    .summary-total .value{font-size:1.35rem;font-weight:700;color:var(--primary);}
+    .alert-gst{background:#fff8e1;border:1px solid #ffe082;border-radius:10px;padding:.65rem .9rem;font-size:.8rem;color:#7a5800;margin-top:1rem;display:flex;gap:.5rem;align-items:flex-start;line-height:1.5;}
+    .alert-gst i{color:#f59e0b;margin-top:.15rem;flex-shrink:0;}
+    .contact-help-box{background:var(--light-bg);border-radius:10px;padding:.85rem 1rem;margin-top:1rem;text-align:center;font-size:.83rem;color:var(--text-muted-custom);}
+    .contact-help-box strong{color:var(--dark);display:block;margin-bottom:.3rem;}
+    .contact-help-box a{color:var(--primary);font-weight:600;text-decoration:none;}
+    .contact-help-box a:hover{text-decoration:underline;}
+    .loading-overlay{position:fixed;inset:0;background:rgba(26,26,46,.88);z-index:9999;display:none;flex-direction:column;align-items:center;justify-content:center;gap:1rem;backdrop-filter:blur(4px);}
+    .loading-overlay.active{display:flex;}
+    .loading-spinner{width:56px;height:56px;border:5px solid rgba(200,169,110,.25);border-top-color:var(--accent);border-radius:50%;animation:spin .85s linear infinite;}
+    @keyframes spin{to{transform:rotate(360deg);}}
+    .loading-overlay p{color:#fff;font-size:1.05rem;font-weight:600;margin:0;}
+    .loading-overlay small{color:rgba(255,255,255,.6);font-size:.82rem;}
+    @media(max-width:991.98px){.booking-summary-card{position:static;}}
+    @media(max-width:575.98px){.booking-form-wrap{padding:1.4rem 1.1rem;}.summary-body{padding:1.1rem;}.summary-header{padding:1.1rem;}}
+  </style>
+</head>
+<body data-page="treks" class="booking-page">
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNavbar" data-transparent="false" style="background:linear-gradient(135deg,#1a5c38 0%,#2d8653 100%);box-shadow:0 2px 20px rgba(0,0,0,.18);">
+  <div class="container">
+    <a class="navbar-brand d-flex align-items-center gap-2" href="index.html">
+      <div style="width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,#c8a96e,#a8873a);display:flex;align-items:center;justify-content:center;">
+        <i class="fas fa-mountain text-white" style="font-size:1rem;"></i>
+      </div>
+      <div>
+        <span style="font-family:'Playfair Display',serif;font-weight:700;font-size:1.1rem;color:#fff;">Trek</span><span style="font-family:'Playfair Display',serif;font-weight:400;font-size:1.1rem;color:#c8a96e;">Adventures</span>
+      </div>
+    </a>
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" aria-controls="navMenu" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-1">
+        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link active" href="treks.html">Treks</a></li>
+        <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+        <li class="nav-item"><a class="nav-link" href="gallery.html">Gallery</a></li>
+        <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+        <li class="nav-item ms-lg-2">
+          <a class="btn btn-sm px-3 py-2" href="booking.html" style="background:linear-gradient(135deg,#c8a96e,#a8873a);color:#fff;border-radius:8px;font-weight:600;">Book Now</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- PAGE HERO -->
+<section class="page-hero-narrow">
+  <div class="container position-relative">
+    <nav aria-label="breadcrumb" class="mb-3">
+      <ol class="breadcrumb mb-0">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="treks.html">Treks</a></li>
+        <li class="breadcrumb-item"><a href="trek-detail.html">Sandakphu Trek</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Book Now</li>
+      </ol>
+    </nav>
+    <h1>Complete Your Booking</h1>
+  </div>
+</section>
+<!-- MAIN -->
+<main class="container py-5">
+  <div class="row g-4 g-xl-5">
+    <!-- LEFT: Booking Form -->
+    <div class="col-lg-8">
+      <div class="booking-form-wrap">
+        <div class="section-heading">
+          <div class="icon-badge"><i class="fas fa-user"></i></div>
+          Customer Information
+        </div>
+        <form id="booking-form" novalidate>
+          <!-- Row 1: Name + Email -->
+          <div class="row g-3 mb-3">
+            <div class="col-md-6">
+              <label class="form-label" for="full-name">Full Name <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="full-name" placeholder="John Doe" pattern="[A-Za-z\s\-']+" required />
+              <div class="invalid-feedback">Please enter your full name (letters only).</div>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label" for="email">Email Address <span class="text-danger">*</span></label>
+              <input type="email" class="form-control" id="email" placeholder="john@example.com" required />
+              <div class="invalid-feedback">Please enter a valid email address.</div>
+            </div>
+          </div>
+          <!-- Row 2: Mobile + Country -->
+          <div class="row g-3 mb-3">
+            <div class="col-md-6">
+              <label class="form-label" for="mobile">Mobile Number <span class="text-danger">*</span></label>
+              <input type="tel" class="form-control" id="mobile" placeholder="+91 XXXXXXXXXX" required />
+              <div class="invalid-feedback">Please enter a valid mobile number.</div>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label" for="country">Country <span class="text-danger">*</span></label>
+              <select class="form-select" id="country" required>
+                <option value="" selected disabled>Select your country</option>
+                <option>India</option>
+                <option>Nepal</option>
+                <option>Bangladesh</option>
+                <option>Bhutan</option>
+                <option>Sri Lanka</option>
+                <option>United Kingdom</option>
+                <option>USA</option>
+                <option>Canada</option>
+                <option>Australia</option>
+                <option>Germany</option>
+                <option>Others</option>
+              </select>
+              <div class="invalid-feedback">Please select your country.</div>
+            </div>
+          </div>
+          <!-- Row 3: Travellers + Emergency -->
+          <div class="row g-3 mb-3">
+            <div class="col-md-6">
+              <label class="form-label" for="num-travellers">Number of Travellers <span class="text-danger">*</span></label>
+              <input type="number" class="form-control" id="num-travellers" min="1" max="16" value="2" data-price="14999" required />
+              <div class="invalid-feedback">Please enter between 1 and 16 travellers.</div>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label" for="emergency-contact">Emergency Contact <span class="text-danger">*</span></label>
+              <input type="tel" class="form-control" id="emergency-contact" placeholder="+91 XXXXXXXXXX" required />
+              <div class="invalid-feedback">Please provide an emergency contact number.</div>
+            </div>
+          </div>
+          <!-- Row 4: Special Requirements -->
+          <div class="mb-4">
+            <label class="form-label" for="special-req">Special Requirements</label>
+            <textarea class="form-control" id="special-req" rows="3" placeholder="Any dietary requirements, medical conditions, equipment needs..."></textarea>
+          </div>
+          <hr class="my-4" style="border-color:#e5e7eb;" />
+          <!-- Payment Method -->
+          <div class="section-heading">
+            <div class="icon-badge"><i class="fas fa-wallet"></i></div>
+            Payment Method
+          </div>
+          <div class="payment-methods mb-4" id="payment-methods">
+            <label class="payment-option active" for="pay-card">
+              <input type="radio" name="payment" id="pay-card" value="card" checked />
+              <div class="pay-icon"><i class="fas fa-credit-card"></i></div>
+              <div class="pay-info">
+                <strong>Credit / Debit Card</strong>
+                <small>Visa, Mastercard, RuPay accepted</small>
+              </div>
+              <div class="pay-check">&#10003;</div>
+            </label>
+            <label class="payment-option" for="pay-upi">
+              <input type="radio" name="payment" id="pay-upi" value="upi" />
+              <div class="pay-icon"><i class="fas fa-mobile-screen"></i></div>
+              <div class="pay-info">
+                <strong>UPI Payment</strong>
+                <small>Google Pay, PhonePe, BHIM UPI</small>
+              </div>
+              <div class="pay-check"></div>
+            </label>
+            <label class="payment-option" for="pay-net">
+              <input type="radio" name="payment" id="pay-net" value="netbanking" />
+              <div class="pay-icon"><i class="fas fa-building-columns"></i></div>
+              <div class="pay-info">
+                <strong>Net Banking</strong>
+                <small>All major banks supported</small>
+              </div>
+              <div class="pay-check"></div>
+            </label>
+          </div>
+          <!-- Terms -->
+          <div class="form-check mb-4">
+            <input class="form-check-input" type="checkbox" id="terms-check" required />
+            <label class="form-check-label" for="terms-check" style="font-size:.9rem;color:#374151;">
+              I agree to the <a href="#" style="color:var(--primary);font-weight:600;">Terms &amp; Conditions</a> and <a href="#" style="color:var(--primary);font-weight:600;">Cancellation Policy</a>
+            </label>
+            <div class="invalid-feedback">You must agree before proceeding.</div>
+          </div>
+          <!-- Submit -->
+          <button type="submit" class="btn btn-primary-custom w-100 py-3" id="submit-btn">
+            <i class="fas fa-lock me-2"></i>Proceed to Payment
+          </button>
+          <p class="secure-note mt-3">
+            <i class="fas fa-shield-halved"></i> Secure 256-bit SSL payment processing
+          </p>
+        </form>
+      </div>
+    </div>
+    <!-- RIGHT: Booking Summary -->
+    <div class="col-lg-4">
+      <div class="booking-summary-card">
+        <div class="summary-header">
+          <h6>Booking Summary</h6>
+          <div class="summary-trek-info">
+            <img src="https://images.unsplash.com/photo-1571952537-2d8bb8b7e690?w=400&q=80" alt="Sandakphu Trek" class="summary-trek-thumb" />
+            <div>
+              <p class="summary-trek-name">Sandakphu Trek</p>
+              <p class="summary-trek-loc"><i class="fas fa-map-marker-alt"></i>West Bengal</p>
+            </div>
+          </div>
+        </div>
+        <div class="summary-body">
+          <div class="summary-row">
+            <span class="label">Selected Date</span>
+            <span class="value" id="selected-date">18 October 2026</span>
+          </div>
+          <div class="summary-row">
+            <span class="label">Duration</span>
+            <span class="value">6 Days / 5 Nights</span>
+          </div>
+          <div class="summary-row">
+            <span class="label">Difficulty</span>
+            <span class="value">
+              <span class="badge rounded-pill" style="background:#fff3cd;color:#92400e;font-size:.75rem;font-weight:600;padding:.35em .75em;">Moderate</span>
+            </span>
+          </div>
+          <div class="summary-row">
+            <span class="label">Price per person</span>
+            <span class="value" id="price-per-person">&#8377;14,999</span>
+          </div>
+          <div class="summary-row">
+            <span class="label">Travellers</span>
+            <span class="value" id="total-label">2</span>
+          </div>
+          <div class="summary-row">
+            <span class="label">Seats Available</span>
+            <span class="value"><span id="seats-available" style="color:#dc2626;font-weight:700;font-size:.88rem;">8 seats left</span></span>
+          </div>
+          <div class="summary-row summary-total">
+            <span class="label">Total Amount</span>
+            <span class="value" id="booking-total">&#8377;29,998</span>
+          </div>
+          <div class="alert-gst">
+            <i class="fas fa-triangle-exclamation"></i>
+            <span>Prices include GST. Final amount will be shown at checkout.</span>
+          </div>
+          <div class="contact-help-box">
+            <strong><i class="fas fa-headset me-1" style="color:var(--primary);"></i>Need Help?</strong>
+            Call us <a href="tel:+919876543210">+91 98765 43210</a> &nbsp;or&nbsp;
+            <a href="https://wa.me/919876543210" target="_blank" rel="noopener"><i class="fab fa-whatsapp" style="color:#25d366;"></i> WhatsApp</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- LOADING OVERLAY -->
+<div id="loading-overlay" class="loading-overlay" role="status" aria-live="polite">
+  <div class="loading-spinner"></div>
+  <p>Processing your booking...</p>
+  <small>Please do not close this window</small>
+</div>
+<!-- FOOTER -->
+<footer style="background:var(--dark);color:rgba(255,255,255,.75);padding:3.5rem 0 1.5rem;">
+  <div class="container">
+    <div class="row g-4 mb-4">
+      <div class="col-lg-4 col-md-6">
+        <div class="d-flex align-items-center gap-2 mb-3">
+          <div style="width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,#c8a96e,#a8873a);display:flex;align-items:center;justify-content:center;">
+            <i class="fas fa-mountain text-white"></i>
+          </div>
+          <span style="font-family:'Playfair Display',serif;font-size:1.15rem;color:#fff;">Trek<span style="color:#c8a96e;">Adventures</span></span>
+        </div>
+        <p style="font-size:.875rem;line-height:1.7;color:rgba(255,255,255,.6);max-width:280px;">Your trusted partner for Himalayan trekking experiences. Safety, adventure, and unforgettable memories.</p>
+        <div class="d-flex gap-2 mt-3">
+          <a href="#" aria-label="Facebook" style="width:36px;height:36px;border-radius:8px;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;color:#c8a96e;text-decoration:none;"><i class="fab fa-facebook-f fa-sm"></i></a>
+          <a href="#" aria-label="Instagram" style="width:36px;height:36px;border-radius:8px;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;color:#c8a96e;text-decoration:none;"><i class="fab fa-instagram fa-sm"></i></a>
+          <a href="#" aria-label="YouTube" style="width:36px;height:36px;border-radius:8px;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;color:#c8a96e;text-decoration:none;"><i class="fab fa-youtube fa-sm"></i></a>
+          <a href="#" aria-label="Twitter / X" style="width:36px;height:36px;border-radius:8px;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;color:#c8a96e;text-decoration:none;"><i class="fab fa-x-twitter fa-sm"></i></a>
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-6 col-6">
+        <h6 style="color:#fff;font-weight:700;font-size:.9rem;letter-spacing:.05em;text-transform:uppercase;margin-bottom:1rem;">Quick Links</h6>
+        <ul class="list-unstyled" style="font-size:.875rem;">
+          <li class="mb-2"><a href="index.html" style="color:rgba(255,255,255,.65);text-decoration:none;">Home</a></li>
+          <li class="mb-2"><a href="treks.html" style="color:rgba(255,255,255,.65);text-decoration:none;">Our Treks</a></li>
+          <li class="mb-2"><a href="about.html" style="color:rgba(255,255,255,.65);text-decoration:none;">About Us</a></li>
+          <li class="mb-2"><a href="gallery.html" style="color:rgba(255,255,255,.65);text-decoration:none;">Gallery</a></li>
+          <li class="mb-2"><a href="contact.html" style="color:rgba(255,255,255,.65);text-decoration:none;">Contact</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-3 col-md-6 col-6">
+        <h6 style="color:#fff;font-weight:700;font-size:.9rem;letter-spacing:.05em;text-transform:uppercase;margin-bottom:1rem;">Popular Treks</h6>
+        <ul class="list-unstyled" style="font-size:.875rem;">
+          <li class="mb-2"><a href="treks.html" style="color:rgba(255,255,255,.65);text-decoration:none;">Sandakphu Trek</a></li>
+          <li class="mb-2"><a href="treks.html" style="color:rgba(255,255,255,.65);text-decoration:none;">Valley of Flowers</a></li>
+          <li class="mb-2"><a href="treks.html" style="color:rgba(255,255,255,.65);text-decoration:none;">Roopkund Trek</a></li>
+          <li class="mb-2"><a href="treks.html" style="color:rgba(255,255,255,.65);text-decoration:none;">Kedarkantha Trek</a></li>
+          <li class="mb-2"><a href="treks.html" style="color:rgba(255,255,255,.65);text-decoration:none;">Chopta Chandrashila</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-3 col-md-6">
+        <h6 style="color:#fff;font-weight:700;font-size:.9rem;letter-spacing:.05em;text-transform:uppercase;margin-bottom:1rem;">Contact Us</h6>
+        <ul class="list-unstyled" style="font-size:.875rem;color:rgba(255,255,255,.65);">
+          <li class="mb-2 d-flex gap-2"><i class="fas fa-map-marker-alt mt-1" style="color:#c8a96e;width:16px;flex-shrink:0;"></i><span>123 Mountain Road, Darjeeling, West Bengal 734101</span></li>
+          <li class="mb-2 d-flex gap-2"><i class="fas fa-phone mt-1" style="color:#c8a96e;width:16px;flex-shrink:0;"></i><a href="tel:+919876543210" style="color:rgba(255,255,255,.65);text-decoration:none;">+91 98765 43210</a></li>
+          <li class="mb-2 d-flex gap-2"><i class="fas fa-envelope mt-1" style="color:#c8a96e;width:16px;flex-shrink:0;"></i><a href="mailto:hello@trekadventures.in" style="color:rgba(255,255,255,.65);text-decoration:none;">hello@trekadventures.in</a></li>
+          <li class="d-flex gap-2"><i class="fas fa-clock mt-1" style="color:#c8a96e;width:16px;flex-shrink:0;"></i><span>Mon&ndash;Sat: 9 AM &ndash; 7 PM IST</span></li>
+        </ul>
+      </div>
+    </div>
+    <hr style="border-color:rgba(255,255,255,.1);margin:0 0 1.25rem;" />
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-2" style="font-size:.8rem;color:rgba(255,255,255,.45);">
+      <span>&copy; 2026 Trek Adventures. All rights reserved.</span>
+      <div class="d-flex gap-3">
+        <a href="#" style="color:rgba(255,255,255,.45);text-decoration:none;">Privacy Policy</a>
+        <a href="#" style="color:rgba(255,255,255,.45);text-decoration:none;">Terms of Service</a>
+        <a href="#" style="color:rgba(255,255,255,.45);text-decoration:none;">Refund Policy</a>
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- SCRIPTS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  /* Payment option toggling */
+  document.querySelectorAll('.payment-option').forEach(function(opt){
+    opt.addEventListener('click',function(){
+      document.querySelectorAll('.payment-option').forEach(function(o){
+        o.classList.remove('active');
+        var c=o.querySelector('.pay-check');if(c)c.textContent='';
+      });
+      this.classList.add('active');
+      var c=this.querySelector('.pay-check');if(c)c.textContent='\u2713';
+      var r=this.querySelector('input[type="radio"]');if(r)r.checked=true;
+    });
+  });
+
+  /* Live price calculation */
+  var numInput=document.getElementById('num-travellers');
+  var totalLabel=document.getElementById('total-label');
+  var totalEl=document.getElementById('booking-total');
+  var PRICE=parseInt(numInput.getAttribute('data-price'),10);
+  function updateTotal(){
+    var n=parseInt(numInput.value,10);
+    if(isNaN(n)||n<1)n=1;
+    if(n>16)n=16;
+    numInput.value=n;
+    totalLabel.textContent=n;
+    totalEl.textContent='\u20B9'+(n*PRICE).toLocaleString('en-IN');
+  }
+  numInput.addEventListener('input',updateTotal);
+  updateTotal();
+
+  /* Form validation & submit */
+  var form=document.getElementById('booking-form');
+  var overlay=document.getElementById('loading-overlay');
+  var submitBtn=document.getElementById('submit-btn');
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    form.classList.add('was-validated');
+    if(!form.checkValidity()){
+      var fi=form.querySelector(':invalid');
+      if(fi){fi.focus();fi.scrollIntoView({behavior:'smooth',block:'center'});}
+      return;
+    }
+    submitBtn.disabled=true;
+    overlay.classList.add('active');
+    setTimeout(function(){
+      overlay.classList.remove('active');
+      submitBtn.disabled=false;
+      alert('Booking confirmed!\n(Demo mode \u2014 no real payment processed.)');
+    },3000);
+  });
+</script>
+<script src="js/main.js" defer onerror="void 0;"></script>
+</body>
+</html>

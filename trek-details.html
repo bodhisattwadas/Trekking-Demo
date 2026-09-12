@@ -1,0 +1,496 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sandakphu Trek Details - Trek Adventures</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    :root{--primary:#1a5c38;--primary-light:#2d8653;--accent:#c8a96e;--accent-dark:#a8873a;--dark:#1a1a2e;--light-bg:#f8f6f0;--text-muted-custom:#6b7280;}
+    .page-hero{background:linear-gradient(135deg,var(--primary) 0%,#0f3d24 100%);padding:5rem 0 3rem;margin-top:72px;}
+    .page-hero .breadcrumb-item a{color:var(--accent);text-decoration:none;}
+    .page-hero .breadcrumb-item.active,.page-hero .breadcrumb-item+.breadcrumb-item::before{color:rgba(255,255,255,.6);}
+    .page-hero h1{font-family:'Playfair Display',serif;font-size:clamp(2rem,5vw,3rem);font-weight:700;}
+    .page-hero .subtitle{color:var(--accent);font-size:1.05rem;font-weight:500;}
+    .gallery-main-wrap{border-radius:16px;overflow:hidden;}
+    #gallery-main-img{width:100%;height:420px;object-fit:cover;display:block;transition:opacity .3s;}
+    .gallery-thumbs{display:flex;gap:.6rem;margin-top:.75rem;flex-wrap:wrap;}
+    .gallery-thumb{width:calc(25% - .5rem);aspect-ratio:4/3;object-fit:cover;border-radius:10px;cursor:pointer;border:3px solid transparent;transition:border-color .2s,transform .2s;}
+    .gallery-thumb.active,.gallery-thumb:hover{border-color:var(--accent);transform:translateY(-2px);}
+    .info-chip{display:inline-flex;align-items:center;gap:.45rem;background:var(--light-bg);border:1px solid #e5e0d5;border-radius:50px;padding:.4rem 1rem;font-size:.85rem;font-weight:600;color:var(--dark);}
+    .info-chip i{color:var(--primary);font-size:.9rem;}
+    .stars-row{display:flex;align-items:center;gap:.5rem;}
+    .stars-row .stars{color:#f59e0b;font-size:1.1rem;letter-spacing:1px;}
+    .stars-row .rating-num{font-size:1.3rem;font-weight:700;color:var(--dark);}
+    .stars-row .review-count{color:var(--text-muted-custom);font-size:.88rem;}
+    .section-heading{font-family:'Playfair Display',serif;font-size:1.55rem;font-weight:700;color:var(--dark);margin-bottom:1.1rem;padding-bottom:.5rem;border-bottom:3px solid var(--accent);display:inline-block;}
+    .overview-text p{font-size:.97rem;color:#4b5563;line-height:1.8;margin-bottom:1rem;}
+    .itinerary-accordion .accordion-button{background:var(--light-bg);color:var(--dark);font-weight:600;font-size:.97rem;gap:.75rem;}
+    .itinerary-accordion .accordion-button:not(.collapsed){background:var(--primary);color:#fff;}
+    .itinerary-accordion .accordion-button:not(.collapsed)::after{filter:brightness(0) invert(1);}
+    .itinerary-accordion .accordion-button:focus{box-shadow:none;}
+    .itinerary-accordion .accordion-item{border-radius:10px!important;overflow:hidden;margin-bottom:.6rem;border:1px solid #e0dbd1;}
+    .itinerary-accordion .accordion-body{background:#fff;color:var(--text-muted-custom);font-size:.93rem;line-height:1.7;}
+    .day-badge{background:var(--accent);color:#fff;font-size:.75rem;font-weight:700;padding:.2rem .65rem;border-radius:50px;letter-spacing:.5px;white-space:nowrap;}
+    .itinerary-accordion .accordion-button:not(.collapsed) .day-badge{background:rgba(255,255,255,.25);}
+    .inc-exc-card{background:#fff;border-radius:16px;padding:1.4rem 1.5rem;box-shadow:0 4px 20px rgba(0,0,0,.06);height:100%;}
+    .inc-exc-card h5{font-family:'Playfair Display',serif;font-weight:700;font-size:1.1rem;margin-bottom:1rem;}
+    .inc-exc-card ul{list-style:none;padding:0;margin:0;}
+    .inc-exc-card ul li{display:flex;align-items:flex-start;gap:.55rem;font-size:.9rem;color:var(--dark);margin-bottom:.55rem;line-height:1.5;}
+    .inc-exc-card ul li .inc-icon{color:#16a34a;margin-top:2px;flex-shrink:0;}
+    .inc-exc-card ul li .exc-icon{color:#dc2626;margin-top:2px;flex-shrink:0;}
+    .dates-table thead th{background:var(--primary);color:#fff;font-weight:600;font-size:.88rem;}
+    .dates-table tbody tr:hover{background:#f0faf5;}
+    .dates-table td{vertical-align:middle;font-size:.9rem;color:var(--dark);}
+    .badge-open{background:#dcfce7;color:#15803d;font-size:.78rem;font-weight:600;padding:.3rem .7rem;border-radius:50px;}
+    .select-date-btn{background:var(--primary);color:#fff;border:none;border-radius:50px;padding:.35rem .9rem;font-size:.82rem;font-weight:600;transition:background .2s,transform .2s;}
+    .select-date-btn:hover{background:var(--primary-light);color:#fff;transform:translateY(-1px);}
+    .booking-quick-card{background:#fff;border-radius:16px;box-shadow:0 8px 40px rgba(0,0,0,.12);overflow:hidden;position:sticky;top:90px;}
+    .quick-header{background:linear-gradient(135deg,var(--primary) 0%,var(--primary-light) 100%);color:#fff;padding:1.5rem 1.5rem 1.2rem;}
+    .quick-header .price-label{font-size:.8rem;opacity:.8;text-transform:uppercase;letter-spacing:.5px;}
+    .quick-header .price-main{font-family:'Playfair Display',serif;font-size:2rem;font-weight:700;}
+    .quick-header .price-suffix{font-size:.85rem;opacity:.8;}
+    .quick-header .rating-mini{display:flex;align-items:center;gap:.4rem;margin-top:.35rem;font-size:.85rem;opacity:.9;}
+    .quick-header .rating-mini .stars{color:#fbbf24;}
+    .quick-body{padding:1.4rem 1.5rem;}
+    .quick-info-row{display:flex;align-items:center;gap:.75rem;font-size:.88rem;color:var(--dark);margin-bottom:.8rem;}
+    .quick-info-row i{color:var(--primary);width:18px;text-align:center;flex-shrink:0;}
+    .btn-primary-custom{background:linear-gradient(135deg,var(--primary) 0%,var(--primary-light) 100%);color:#fff;border:none;border-radius:50px;padding:.75rem 2rem;font-weight:600;letter-spacing:.3px;transition:transform .2s,box-shadow .2s;}
+    .btn-primary-custom:hover{color:#fff;transform:translateY(-2px);box-shadow:0 8px 24px rgba(26,92,56,.35);}
+    .quick-divider{border:none;border-top:1px solid #e8e4dc;margin:1.1rem 0;}
+    .contact-row{display:flex;align-items:center;gap:.7rem;font-size:.88rem;color:var(--dark);margin-bottom:.65rem;}
+    .contact-row i{color:var(--primary);width:18px;text-align:center;flex-shrink:0;}
+    .contact-row a{color:var(--dark);text-decoration:none;transition:color .2s;}
+    .contact-row a:hover{color:var(--primary);}
+    .whatsapp-row i{color:#25d366!important;}
+    @media(max-width:991px){#gallery-main-img{height:300px;}.booking-quick-card{position:static;margin-top:2.5rem;}}
+    @media(max-width:576px){#gallery-main-img{height:220px;}.gallery-thumb{width:calc(25% - .45rem);}}
+  </style>
+</head>
+<body data-page="treks">
+
+  <!-- NAVBAR -->
+  <nav class="navbar navbar-expand-lg fixed-top" id="mainNavbar" data-transparent="false" style="background:#1a5c38;padding:.9rem 0;">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center gap-2" href="index.html">
+        <span style="background:#c8a96e;width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;">
+          <i class="fa-solid fa-mountain text-white" style="font-size:1rem;"></i>
+        </span>
+        <span style="font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:700;color:#fff;">Trek<span style="color:#c8a96e;">Adventures</span></span>
+      </a>
+      <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon" style="filter:invert(1);"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-1">
+          <li class="nav-item"><a class="nav-link text-white px-3" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link text-white px-3 active" href="treks.html">Treks</a></li>
+          <li class="nav-item"><a class="nav-link text-white px-3" href="about.html">About</a></li>
+          <li class="nav-item"><a class="nav-link text-white px-3" href="gallery.html">Gallery</a></li>
+          <li class="nav-item"><a class="nav-link text-white px-3" href="blog.html">Blog</a></li>
+          <li class="nav-item"><a class="nav-link text-white px-3" href="contact.html">Contact</a></li>
+          <li class="nav-item ms-lg-2">
+            <a href="booking.html" class="btn btn-sm px-4 py-2 fw-semibold rounded-pill" style="background:#c8a96e;border:none;color:#fff;">Book Now</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- PAGE HERO -->
+  <section class="page-hero">
+    <div class="container">
+      <nav aria-label="breadcrumb" class="mb-3">
+        <ol class="breadcrumb mb-0" style="background:transparent;padding:0;">
+          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item"><a href="treks.html">Treks</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Sandakphu Trek</li>
+        </ol>
+      </nav>
+      <h1 class="text-white mb-1">Sandakphu Trek</h1>
+      <p class="subtitle mb-0"><i class="fa-solid fa-location-dot me-1"></i>West Bengal, India</p>
+    </div>
+  </section>
+
+  <!-- MAIN CONTENT -->
+  <main class="py-5" style="background:var(--light-bg,#f8f6f0);">
+    <div class="container">
+      <div class="row g-4 align-items-start">
+        <!-- LEFT COL -->
+        <div class="col-lg-8">
+
+          <!-- 1. GALLERY -->
+          <div class="mb-4">
+            <div class="gallery-main-wrap shadow-sm">
+              <img id="gallery-main-img" src="https://images.unsplash.com/photo-1571952537-2d8bb8b7e690?w=900&q=85" alt="Sandakphu Trek main view" />
+            </div>
+            <div class="gallery-thumbs">
+              <img class="gallery-thumb active" src="https://images.unsplash.com/photo-1571952537-2d8bb8b7e690?w=300&q=80" data-full="https://images.unsplash.com/photo-1571952537-2d8bb8b7e690?w=900&q=85" alt="View 1" />
+              <img class="gallery-thumb" src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=300&q=80" data-full="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=900&q=85" alt="View 2" />
+              <img class="gallery-thumb" src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=300&q=80" data-full="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=900&q=85" alt="View 3" />
+              <img class="gallery-thumb" src="https://images.unsplash.com/photo-1551632811-561732d1e306?w=300&q=80" data-full="https://images.unsplash.com/photo-1551632811-561732d1e306?w=900&q=85" alt="View 4" />
+            </div>
+          </div>
+
+          <!-- 2. INFO CHIPS -->
+          <div class="d-flex flex-wrap gap-2 my-3">
+            <span class="info-chip"><i class="fa-regular fa-clock"></i> 6 Days</span>
+            <span class="info-chip"><i class="fa-solid fa-mountain"></i> 3636m Altitude</span>
+            <span class="info-chip"><i class="fa-solid fa-gauge"></i> Moderate</span>
+            <span class="info-chip"><i class="fa-solid fa-users"></i> Max 16 People</span>
+            <span class="info-chip"><i class="fa-solid fa-map-marker-alt"></i> Darjeeling Basecamp</span>
+          </div>
+
+          <!-- 3. STARS RATING -->
+          <div class="stars-row mb-4">
+            <span class="rating-num">4.8</span>
+            <span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+            <span class="review-count">(245 reviews)</span>
+          </div>
+
+          <!-- 4. OVERVIEW -->
+          <div class="mb-5">
+            <h2 class="section-heading">Trek Overview</h2>
+            <div class="overview-text mt-3">
+              <p>Sandakphu is the highest peak in West Bengal at 3,636 metres. The trek offers unparalleled views of four of the world&#39;s five highest peaks &mdash; Everest, Kangchenjunga, Lhotse, and Makalu. The trail passes through the Singalila National Park, home to red pandas and Himalayan wildlife.</p>
+              <p>The trek starts from Maneybhanjang and passes through charming Gorkha villages including Tumling, Kalipokhri, and Bikhebhanjang. The trail offers a unique opportunity to walk along the India-Nepal border.</p>
+            </div>
+          </div>
+
+          <!-- 5. ITINERARY ACCORDION -->
+          <div class="mb-5">
+            <h2 class="section-heading">Trek Itinerary</h2>
+            <div class="accordion itinerary-accordion mt-3" id="itinerary-accordion">
+
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="day1-heading">
+                  <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#day1" aria-expanded="true" aria-controls="day1">
+                    <span class="day-badge me-2">Day 1</span>
+                    <strong>Arrival at Maneybhanjang (2134m)</strong>
+                  </button>
+                </h2>
+                <div id="day1" class="accordion-collapse collapse show" aria-labelledby="day1-heading" data-bs-parent="#itinerary-accordion">
+                  <div class="accordion-body">
+                    Arrive at Maneybhanjang, check in to guesthouses, and attend an evening briefing with your trek guide.<br>
+                    <strong>Meals:</strong> Dinner included. &nbsp;<strong>Overnight:</strong> Maneybhanjang.
+                  </div>
+                </div>
+              </div>
+
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="day2-heading">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#day2" aria-expanded="false" aria-controls="day2">
+                    <span class="day-badge me-2">Day 2</span>
+                    <strong>Maneybhanjang to Tumling (2970m)</strong>
+                  </button>
+                </h2>
+                <div id="day2" class="accordion-collapse collapse" aria-labelledby="day2-heading" data-bs-parent="#itinerary-accordion">
+                  <div class="accordion-body">
+                    11 km, approximately 5&ndash;6 hours trekking through dense rhododendron forests. First views of Kangchenjunga as you ascend the ridge.<br>
+                    <strong>Overnight:</strong> Tumling.
+                  </div>
+                </div>
+              </div>
+
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="day3-heading">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#day3" aria-expanded="false" aria-controls="day3">
+                    <span class="day-badge me-2">Day 3</span>
+                    <strong>Tumling to Kalipokhri (3186m)</strong>
+                  </button>
+                </h2>
+                <div id="day3" class="accordion-collapse collapse" aria-labelledby="day3-heading" data-bs-parent="#itinerary-accordion">
+                  <div class="accordion-body">
+                    8 km trek along the ridge with sweeping Himalayan views. Visit the sacred Kalipokhri Lake nestled amid dense forest.<br>
+                    <strong>Overnight:</strong> Kalipokhri.
+                  </div>
+                </div>
+              </div>
+
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="day4-heading">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#day4" aria-expanded="false" aria-controls="day4">
+                    <span class="day-badge me-2">Day 4</span>
+                    <strong>Kalipokhri to Sandakphu Summit (3636m)</strong>
+                  </button>
+                </h2>
+                <div id="day4" class="accordion-collapse collapse" aria-labelledby="day4-heading" data-bs-parent="#itinerary-accordion">
+                  <div class="accordion-body">
+                    9 km, final ascent to the highest point in West Bengal. Breathtaking 360&deg; Himalayan panorama including Everest, Kangchenjunga, Lhotse, and Makalu.<br>
+                    <strong>Overnight:</strong> Sandakphu.
+                  </div>
+                </div>
+              </div>
+
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="day5-heading">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#day5" aria-expanded="false" aria-controls="day5">
+                    <span class="day-badge me-2">Day 5</span>
+                    <strong>Sandakphu Exploration Day</strong>
+                  </button>
+                </h2>
+                <div id="day5" class="accordion-collapse collapse" aria-labelledby="day5-heading" data-bs-parent="#itinerary-accordion">
+                  <div class="accordion-body">
+                    Soak in golden sunrise views over the Sleeping Buddha silhouette of Kangchenjunga. Explore the summit; optional descent to Phalut available.<br>
+                    <strong>Overnight:</strong> Sandakphu.
+                  </div>
+                </div>
+              </div>
+
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="day6-heading">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#day6" aria-expanded="false" aria-controls="day6">
+                    <span class="day-badge me-2">Day 6</span>
+                    <strong>Return Journey</strong>
+                  </button>
+                </h2>
+                <div id="day6" class="accordion-collapse collapse" aria-labelledby="day6-heading" data-bs-parent="#itinerary-accordion">
+                  <div class="accordion-body">
+                    Descend back through the forests to Maneybhanjang. Farewell dinner with your team. Collect your trek completion certificate and depart.
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- 6. INCLUSIONS / EXCLUSIONS -->
+          <div class="mb-5">
+            <h2 class="section-heading">What&#39;s Included</h2>
+            <div class="row g-3 mt-2">
+              <div class="col-md-6">
+                <div class="inc-exc-card">
+                  <h5 style="color:var(--primary);"><i class="fa-solid fa-circle-check me-2" style="color:#16a34a;"></i>Included</h5>
+                  <ul>
+                    <li><i class="fa-solid fa-check inc-icon"></i> Accommodation (guesthouses / camps)</li>
+                    <li><i class="fa-solid fa-check inc-icon"></i> All meals (breakfast, lunch, dinner)</li>
+                    <li><i class="fa-solid fa-check inc-icon"></i> Professional certified trek guide</li>
+                    <li><i class="fa-solid fa-check inc-icon"></i> Porter service</li>
+                    <li><i class="fa-solid fa-check inc-icon"></i> Camping equipment</li>
+                    <li><i class="fa-solid fa-check inc-icon"></i> Trek permits and park fees</li>
+                    <li><i class="fa-solid fa-check inc-icon"></i> First aid kit and oxygen cylinder</li>
+                    <li><i class="fa-solid fa-check inc-icon"></i> Trek completion certificate</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="inc-exc-card">
+                  <h5 style="color:#dc2626;"><i class="fa-solid fa-circle-xmark me-2" style="color:#dc2626;"></i>Not Included</h5>
+                  <ul>
+                    <li><i class="fa-solid fa-xmark exc-icon"></i> Personal trekking equipment</li>
+                    <li><i class="fa-solid fa-xmark exc-icon"></i> Travel insurance (mandatory)</li>
+                    <li><i class="fa-solid fa-xmark exc-icon"></i> Transportation to Maneybhanjang</li>
+                    <li><i class="fa-solid fa-xmark exc-icon"></i> Extra snacks and beverages</li>
+                    <li><i class="fa-solid fa-xmark exc-icon"></i> Tips for guides and porters</li>
+                    <li><i class="fa-solid fa-xmark exc-icon"></i> Any medical expenses</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 7. AVAILABLE DATES TABLE -->
+          <div class="mb-4">
+            <h2 class="section-heading">Available Dates &amp; Pricing</h2>
+            <div class="table-responsive mt-3">
+              <table class="dates-table table table-bordered align-middle" style="border-radius:12px;overflow:hidden;">
+                <thead>
+                  <tr>
+                    <th>Date</th><th>Price</th><th>Seats</th><th>Status</th><th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><i class="fa-regular fa-calendar-days me-1 text-muted"></i>18 October 2026</td>
+                    <td><strong>&#8377;14,999</strong></td>
+                    <td>8 seats left</td>
+                    <td><span class="badge-open">Open</span></td>
+                    <td><button class="select-date-btn" data-date="18 October 2026" data-price="14999" data-seats="8">Select Date</button></td>
+                  </tr>
+                  <tr>
+                    <td><i class="fa-regular fa-calendar-days me-1 text-muted"></i>1 November 2026</td>
+                    <td><strong>&#8377;14,999</strong></td>
+                    <td>12 seats left</td>
+                    <td><span class="badge-open">Open</span></td>
+                    <td><button class="select-date-btn" data-date="1 November 2026" data-price="14999" data-seats="12">Select Date</button></td>
+                  </tr>
+                  <tr>
+                    <td><i class="fa-regular fa-calendar-days me-1 text-muted"></i>15 November 2026</td>
+                    <td><strong>&#8377;15,499</strong></td>
+                    <td>5 seats left</td>
+                    <td><span class="badge-open">Open</span></td>
+                    <td><button class="select-date-btn" data-date="15 November 2026" data-price="15499" data-seats="5">Select Date</button></td>
+                  </tr>
+                  <tr>
+                    <td><i class="fa-regular fa-calendar-days me-1 text-muted"></i>1 December 2026</td>
+                    <td><strong>&#8377;15,499</strong></td>
+                    <td>2 seats left</td>
+                    <td><span class="text-danger fw-bold">Filling Fast</span></td>
+                    <td><button class="select-date-btn" data-date="1 December 2026" data-price="15499" data-seats="2">Select Date</button></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </div><!-- /col-lg-8 -->
+
+        <!-- RIGHT COL — BOOKING QUICK CARD -->
+        <div class="col-lg-4">
+          <div class="booking-quick-card">
+            <div class="quick-header">
+              <div class="price-label">Starting from</div>
+              <div class="d-flex align-items-baseline gap-1 mt-1">
+                <span class="price-main">&#8377;14,999</span>
+                <span class="price-suffix">&nbsp;/ person</span>
+              </div>
+              <div class="rating-mini">
+                <span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+                <span>4.8 &nbsp;&middot;&nbsp; 245 reviews</span>
+              </div>
+            </div>
+            <div class="quick-body">
+              <div class="quick-info-row">
+                <i class="fa-regular fa-calendar"></i>
+                <div><span class="text-muted" style="font-size:.78rem;">Next date</span><br><strong>18 October 2026</strong></div>
+              </div>
+              <div class="quick-info-row">
+                <i class="fa-solid fa-users"></i>
+                <div><span class="text-muted" style="font-size:.78rem;">Max group</span><br><strong>16 People</strong></div>
+              </div>
+              <div class="quick-info-row">
+                <i class="fa-regular fa-clock"></i>
+                <div><span class="text-muted" style="font-size:.78rem;">Duration</span><br><strong>6 Days / 5 Nights</strong></div>
+              </div>
+              <div class="quick-info-row">
+                <i class="fa-solid fa-mountain"></i>
+                <div><span class="text-muted" style="font-size:.78rem;">Max altitude</span><br><strong>3636m</strong></div>
+              </div>
+              <a href="booking.html" class="btn btn-primary-custom w-100 mt-3">
+                <i class="fa-solid fa-tent me-2"></i>Book This Trek
+              </a>
+              <p class="text-center text-muted mt-2" style="font-size:.8rem;">
+                <i class="fa-solid fa-shield-halved me-1" style="color:var(--primary);"></i>Free cancellation up to 7 days before
+              </p>
+              <hr class="quick-divider" />
+              <p class="fw-semibold mb-2" style="font-size:.9rem;color:var(--dark);">Need help? Contact us</p>
+              <div class="contact-row">
+                <i class="fa-solid fa-phone"></i>
+                <a href="tel:+919876543210">+91 98765 43210</a>
+              </div>
+              <div class="contact-row">
+                <i class="fa-solid fa-envelope"></i>
+                <a href="mailto:info@trekadventures.in">info@trekadventures.in</a>
+              </div>
+              <div class="contact-row whatsapp-row">
+                <i class="fa-brands fa-whatsapp"></i>
+                <a href="https://wa.me/919876543210" target="_blank" rel="noopener">Chat on WhatsApp</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer style="background:#1a1a2e;color:#d1d5db;padding:4rem 0 0;">
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-lg-4 col-md-6">
+          <div class="d-flex align-items-center gap-2 mb-3">
+            <span style="background:#c8a96e;width:40px;height:40px;border-radius:8px;display:flex;align-items:center;justify-content:center;">
+              <i class="fa-solid fa-mountain text-white"></i>
+            </span>
+            <span style="font-family:'Playfair Display',serif;font-size:1.35rem;font-weight:700;color:#fff;">Trek<span style="color:#c8a96e;">Adventures</span></span>
+          </div>
+          <p style="font-size:.9rem;line-height:1.7;color:#9ca3af;">Your trusted partner for Himalayan and mountain trekking experiences. We craft unforgettable journeys with safety, sustainability, and authenticity at heart.</p>
+          <div class="d-flex gap-3 mt-3">
+            <a href="#" style="color:#c8a96e;font-size:1.1rem;"><i class="fa-brands fa-facebook-f"></i></a>
+            <a href="#" style="color:#c8a96e;font-size:1.1rem;"><i class="fa-brands fa-instagram"></i></a>
+            <a href="#" style="color:#c8a96e;font-size:1.1rem;"><i class="fa-brands fa-youtube"></i></a>
+            <a href="#" style="color:#c8a96e;font-size:1.1rem;"><i class="fa-brands fa-whatsapp"></i></a>
+          </div>
+        </div>
+        <div class="col-lg-2 col-md-6 col-6">
+          <h6 style="color:#fff;font-weight:700;margin-bottom:1rem;text-transform:uppercase;letter-spacing:.5px;font-size:.85rem;">Quick Links</h6>
+          <ul style="list-style:none;padding:0;margin:0;">
+            <li class="mb-2"><a href="index.html" style="color:#9ca3af;text-decoration:none;font-size:.9rem;">Home</a></li>
+            <li class="mb-2"><a href="treks.html" style="color:#9ca3af;text-decoration:none;font-size:.9rem;">All Treks</a></li>
+            <li class="mb-2"><a href="about.html" style="color:#9ca3af;text-decoration:none;font-size:.9rem;">About Us</a></li>
+            <li class="mb-2"><a href="gallery.html" style="color:#9ca3af;text-decoration:none;font-size:.9rem;">Gallery</a></li>
+            <li class="mb-2"><a href="blog.html" style="color:#9ca3af;text-decoration:none;font-size:.9rem;">Blog</a></li>
+            <li class="mb-2"><a href="contact.html" style="color:#9ca3af;text-decoration:none;font-size:.9rem;">Contact</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-3 col-md-6 col-6">
+          <h6 style="color:#fff;font-weight:700;margin-bottom:1rem;text-transform:uppercase;letter-spacing:.5px;font-size:.85rem;">Popular Treks</h6>
+          <ul style="list-style:none;padding:0;margin:0;">
+            <li class="mb-2"><a href="trek-details.html" style="color:#9ca3af;text-decoration:none;font-size:.9rem;">Sandakphu Trek</a></li>
+            <li class="mb-2"><a href="treks.html" style="color:#9ca3af;text-decoration:none;font-size:.9rem;">Roopkund Trek</a></li>
+            <li class="mb-2"><a href="treks.html" style="color:#9ca3af;text-decoration:none;font-size:.9rem;">Valley of Flowers</a></li>
+            <li class="mb-2"><a href="treks.html" style="color:#9ca3af;text-decoration:none;font-size:.9rem;">Kedarkantha Trek</a></li>
+            <li class="mb-2"><a href="treks.html" style="color:#9ca3af;text-decoration:none;font-size:.9rem;">Chopta Chandrashila</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-3 col-md-6">
+          <h6 style="color:#fff;font-weight:700;margin-bottom:1rem;text-transform:uppercase;letter-spacing:.5px;font-size:.85rem;">Contact Info</h6>
+          <div class="d-flex align-items-start gap-2 mb-2">
+            <i class="fa-solid fa-location-dot mt-1" style="color:#c8a96e;"></i>
+            <span style="font-size:.9rem;color:#9ca3af;">14 Mountain Way, Darjeeling, West Bengal 734101</span>
+          </div>
+          <div class="d-flex align-items-center gap-2 mb-2">
+            <i class="fa-solid fa-phone" style="color:#c8a96e;"></i>
+            <a href="tel:+919876543210" style="font-size:.9rem;color:#9ca3af;text-decoration:none;">+91 98765 43210</a>
+          </div>
+          <div class="d-flex align-items-center gap-2 mb-2">
+            <i class="fa-solid fa-envelope" style="color:#c8a96e;"></i>
+            <a href="mailto:info@trekadventures.in" style="font-size:.9rem;color:#9ca3af;text-decoration:none;">info@trekadventures.in</a>
+          </div>
+          <div class="d-flex align-items-center gap-2">
+            <i class="fa-solid fa-clock" style="color:#c8a96e;"></i>
+            <span style="font-size:.9rem;color:#9ca3af;">Mon&ndash;Sat, 9AM &ndash; 6PM IST</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="border-top:1px solid rgba(255,255,255,.08);margin-top:3rem;padding:1.25rem 0;">
+      <div class="container d-flex flex-wrap justify-content-between align-items-center gap-2">
+        <p style="margin:0;font-size:.85rem;color:#6b7280;">&copy; 2026 TrekAdventures. All rights reserved.</p>
+        <div class="d-flex gap-3">
+          <a href="#" style="font-size:.82rem;color:#6b7280;text-decoration:none;">Privacy Policy</a>
+          <a href="#" style="font-size:.82rem;color:#6b7280;text-decoration:none;">Terms &amp; Conditions</a>
+          <a href="#" style="font-size:.82rem;color:#6b7280;text-decoration:none;">Cancellation Policy</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- SCRIPTS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    // Gallery thumb switcher
+    document.querySelectorAll('.gallery-thumb').forEach(function(thumb){
+      thumb.addEventListener('click',function(){
+        var img=document.getElementById('gallery-main-img');
+        img.style.opacity='0';
+        setTimeout(function(){img.src=thumb.getAttribute('data-full');img.style.opacity='1';},200);
+        document.querySelectorAll('.gallery-thumb').forEach(function(t){t.classList.remove('active');});
+        thumb.classList.add('active');
+      });
+    });
+    // Select date -> booking
+    document.querySelectorAll('.select-date-btn').forEach(function(btn){
+      btn.addEventListener('click',function(){
+        var d=btn.getAttribute('data-date'),p=btn.getAttribute('data-price'),s=btn.getAttribute('data-seats');
+        window.location.href='booking.html?trek='+encodeURIComponent('Sandakphu Trek')+'&date='+encodeURIComponent(d)+'&price='+p+'&seats='+s;
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,1022 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard — Trek Adventures</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" />
+    <link rel="stylesheet" href="css/style.css" />
+  <style>
+    :root {
+      --primary: #1a5c38;
+      --primary-light: #2d8653;
+      --accent: #c8a96e;
+      --accent-dark: #a8873a;
+      --dark: #1a1a2e;
+      --light-bg: #f8f6f0;
+      --text-muted-custom: #6b7280;
+      --sidebar-width: 260px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f1f5f3;
+      color: var(--dark);
+      margin: 0;
+      padding: 0;
+    }
+
+    /* ===================== SIDEBAR ===================== */
+    .admin-sidebar {
+      width: var(--sidebar-width);
+      min-height: 100vh;
+      background: var(--dark);
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 500;
+      transition: transform 0.3s ease;
+      overflow-y: auto;
+    }
+
+    .admin-sidebar.collapsed {
+      transform: translateX(calc(-1 * var(--sidebar-width)));
+    }
+
+    .sidebar-logo {
+      padding: 28px 24px 20px;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #fff;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      letter-spacing: 0.5px;
+    }
+
+    .sidebar-logo span {
+      color: var(--accent);
+    }
+
+    .sidebar-nav {
+      flex: 1;
+      padding: 16px 0;
+    }
+
+    .nav-section-label {
+      font-size: 0.675rem;
+      font-weight: 600;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
+      padding: 20px 24px 8px;
+    }
+
+    .sidebar-nav a {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 11px 24px;
+      color: rgba(255,255,255,0.72);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      border-left: 3px solid transparent;
+      transition: all 0.2s ease;
+    }
+
+    .sidebar-nav a:hover {
+      color: #fff;
+      background: rgba(255,255,255,0.06);
+    }
+
+    .sidebar-nav a.active {
+      color: #fff;
+      background: rgba(200,169,110,0.12);
+      border-left-color: var(--accent);
+    }
+
+    .sidebar-nav a .fa-fw {
+      width: 18px;
+      font-size: 0.95rem;
+      opacity: 0.85;
+    }
+
+    .sidebar-nav a.active .fa-fw {
+      color: var(--accent);
+      opacity: 1;
+    }
+
+    /* Sidebar User Section */
+    .sidebar-user {
+      padding: 16px 20px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .avatar-circle {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary-light), var(--primary));
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.8rem;
+      flex-shrink: 0;
+      letter-spacing: 0.5px;
+    }
+
+    .sidebar-user-info {
+      flex: 1;
+      overflow: hidden;
+    }
+
+    .sidebar-user-name {
+      color: #fff;
+      font-size: 0.875rem;
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .sidebar-user-role {
+      color: var(--accent);
+      font-size: 0.72rem;
+      font-weight: 500;
+    }
+
+    .sidebar-logout {
+      color: rgba(255,255,255,0.4);
+      font-size: 1rem;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .sidebar-logout:hover { color: #fc8181; }
+
+    /* ===================== MAIN CONTENT ===================== */
+    .admin-content {
+      margin-left: var(--sidebar-width);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      transition: margin-left 0.3s ease;
+    }
+
+    .admin-content.expanded {
+      margin-left: 0;
+    }
+
+    /* ===================== TOPBAR ===================== */
+    .admin-topbar {
+      background: #fff;
+      border-bottom: 1px solid rgba(0,0,0,0.07);
+      padding: 0 24px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 400;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    }
+
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    #sidebar-toggle {
+      background: none;
+      border: none;
+      color: var(--dark);
+      font-size: 1.2rem;
+      cursor: pointer;
+      padding: 6px 8px;
+      border-radius: 8px;
+      transition: background 0.2s;
+    }
+
+    #sidebar-toggle:hover {
+      background: var(--light-bg);
+    }
+
+    .breadcrumb-label {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--dark);
+    }
+
+    .topbar-icon-btn {
+      position: relative;
+      background: none;
+      border: none;
+      color: var(--text-muted-custom);
+      font-size: 1.05rem;
+      cursor: pointer;
+      padding: 8px 10px;
+      border-radius: 8px;
+      transition: background 0.2s, color 0.2s;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+    }
+
+    .topbar-icon-btn:hover {
+      background: var(--light-bg);
+      color: var(--primary);
+    }
+
+    .notif-badge {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      width: 17px;
+      height: 17px;
+      background: #e53e3e;
+      color: #fff;
+      border-radius: 50%;
+      font-size: 0.6rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .topbar-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary-light), var(--primary));
+      color: #fff;
+      font-size: 0.8rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      letter-spacing: 0.5px;
+    }
+
+    /* ===================== CONTENT AREA ===================== */
+    .content-body {
+      padding: 28px 28px 40px;
+      flex: 1;
+    }
+
+    .page-heading {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--dark);
+      margin: 0;
+    }
+
+    .page-date {
+      color: var(--text-muted-custom);
+      font-size: 0.875rem;
+    }
+
+    /* ===================== STAT CARDS ===================== */
+    .stat-card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      height: 100%;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.10);
+    }
+
+    .stat-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      margin-bottom: 16px;
+    }
+
+    .stat-icon.green  { background: rgba(26,92,56,0.1);  color: var(--primary); }
+    .stat-icon.gold   { background: rgba(200,169,110,0.15); color: var(--accent-dark); }
+    .stat-icon.blue   { background: rgba(59,130,246,0.1);  color: #2563eb; }
+    .stat-icon.red    { background: rgba(239,68,68,0.1);   color: #dc2626; }
+
+    .stat-value {
+      font-size: 1.85rem;
+      font-weight: 700;
+      color: var(--dark);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .stat-label {
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--text-muted-custom);
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .stat-sub {
+      font-size: 0.8rem;
+      margin: 0;
+    }
+
+    /* ===================== CARDS ===================== */
+    .admin-card {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      border: none;
+      overflow: hidden;
+      height: 100%;
+    }
+
+    .admin-card .card-header {
+      background: #fff;
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+      padding: 18px 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-weight: 600;
+      font-size: 0.975rem;
+      color: var(--dark);
+    }
+
+    /* ===================== TABLE ===================== */
+    .admin-table {
+      font-size: 0.86rem;
+    }
+
+    .admin-table thead th {
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-muted-custom);
+      background: #fafafa;
+      border-bottom: 1px solid rgba(0,0,0,0.07);
+      padding: 11px 14px;
+      white-space: nowrap;
+    }
+
+    .admin-table tbody td {
+      padding: 12px 14px;
+      vertical-align: middle;
+      border-color: rgba(0,0,0,0.05);
+      color: var(--dark);
+    }
+
+    .admin-table tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    .admin-table tbody tr:hover {
+      background: #f9fdf9;
+    }
+
+    .booking-id {
+      font-family: 'Courier New', monospace;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--primary);
+    }
+
+    /* ===================== STATUS BADGES ===================== */
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+    }
+
+    .status-confirmed {
+      background: rgba(26,92,56,0.1);
+      color: var(--primary);
+    }
+
+    .status-pending {
+      background: rgba(200,169,110,0.2);
+      color: var(--accent-dark);
+    }
+
+    .status-cancelled {
+      background: rgba(239,68,68,0.1);
+      color: #dc2626;
+    }
+
+    /* ===================== OCCUPANCY BARS ===================== */
+    .occupancy-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .occupancy-meta {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.78rem;
+      color: var(--text-muted-custom);
+    }
+
+    .trek-perf-item {
+      padding: 14px 22px;
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .trek-perf-item:last-child { border-bottom: none; }
+
+    .trek-perf-name {
+      font-weight: 600;
+      font-size: 0.875rem;
+      color: var(--dark);
+      margin-bottom: 2px;
+    }
+
+    .trek-perf-seats {
+      font-size: 0.78rem;
+      color: var(--text-muted-custom);
+      margin-bottom: 6px;
+    }
+
+    .progress {
+      height: 7px;
+      border-radius: 99px;
+      background: #e9ecef;
+    }
+
+    .progress-bar.bg-primary-custom { background: var(--primary) !important; }
+    .progress-bar.bg-accent-custom  { background: var(--accent) !important; }
+    .progress-bar.bg-danger-custom  { background: #e53e3e !important; }
+
+    /* ===================== BUTTONS ===================== */
+    .btn-outline-custom {
+      border: 1.5px solid var(--primary);
+      color: var(--primary);
+      background: transparent;
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 5px 14px;
+      border-radius: 8px;
+      transition: all 0.2s;
+    }
+
+    .btn-outline-custom:hover {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .btn-accent {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      font-size: 0.85rem;
+      font-weight: 600;
+      padding: 7px 18px;
+      border-radius: 8px;
+      transition: background 0.2s;
+    }
+
+    .btn-accent:hover {
+      background: var(--accent-dark);
+      color: #fff;
+    }
+
+    /* ===================== OVERLAY ===================== */
+    #sidebar-overlay {
+      display: none;
+      background: rgba(0,0,0,0.5);
+      z-index: 499;
+    }
+
+    /* ===================== RESPONSIVE ===================== */
+    @media (max-width: 991.98px) {
+      .admin-sidebar {
+        transform: translateX(calc(-1 * var(--sidebar-width)));
+      }
+
+      .admin-sidebar.open {
+        transform: translateX(0);
+      }
+
+      .admin-content {
+        margin-left: 0;
+      }
+
+      #sidebar-overlay.show {
+        display: block !important;
+      }
+    }
+
+    @media (max-width: 575.98px) {
+      .content-body {
+        padding: 16px 14px 32px;
+      }
+
+      .admin-topbar {
+        padding: 0 14px;
+      }
+
+      .stat-value {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body data-page="admin">
+
+<!-- Sidebar Overlay (mobile) -->
+<div id="sidebar-overlay"
+     class="position-fixed top-0 start-0 w-100 h-100"
+     style="background:rgba(0,0,0,.5);z-index:499;display:none"
+     onclick="toggleSidebar()"></div>
+
+<div class="d-flex">
+
+  <!-- ==================== SIDEBAR ==================== -->
+  <aside class="admin-sidebar" id="adminSidebar">
+
+    <div class="sidebar-logo">Trek<span>Admin</span></div>
+
+    <nav class="sidebar-nav">
+
+      <!-- Main Menu -->
+      <div class="nav-section-label">Main Menu</div>
+      <a href="#" class="active">
+        <i class="fas fa-gauge fa-fw"></i> Dashboard
+      </a>
+      <a href="#">
+        <i class="fas fa-mountain fa-fw"></i> Treks
+      </a>
+      <a href="#">
+        <i class="fas fa-calendar fa-fw"></i> Trek Dates
+      </a>
+      <a href="#">
+        <i class="fas fa-bookmark fa-fw"></i> Bookings
+      </a>
+
+      <!-- Management -->
+      <div class="nav-section-label">Management</div>
+      <a href="#">
+        <i class="fas fa-users fa-fw"></i> Customers
+      </a>
+      <a href="#">
+        <i class="fas fa-credit-card fa-fw"></i> Payments
+      </a>
+      <a href="#">
+        <i class="fas fa-gear fa-fw"></i> Settings
+      </a>
+
+    </nav>
+
+    <!-- Sidebar User -->
+    <div class="sidebar-user">
+      <div class="avatar-circle">AD</div>
+      <div class="sidebar-user-info">
+        <div class="sidebar-user-name">Admin User</div>
+        <div class="sidebar-user-role">Super Admin</div>
+      </div>
+      <a href="#" class="sidebar-logout" title="Logout">
+        <i class="fas fa-sign-out-alt"></i>
+      </a>
+    </div>
+
+  </aside>
+
+  <!-- ==================== MAIN CONTENT ==================== -->
+  <div class="admin-content w-100" id="adminContent">
+
+    <!-- TOPBAR -->
+    <div class="admin-topbar">
+      <div class="topbar-left">
+        <button id="sidebar-toggle" onclick="toggleSidebar()" title="Toggle Sidebar">
+          <i class="fas fa-bars"></i>
+        </button>
+        <span class="breadcrumb-label">Dashboard</span>
+      </div>
+      <div class="topbar-right">
+        <button class="topbar-icon-btn" title="Search">
+          <i class="fas fa-search"></i>
+        </button>
+        <button class="topbar-icon-btn" title="Notifications">
+          <i class="fas fa-bell"></i>
+          <span class="notif-badge">3</span>
+        </button>
+        <div class="topbar-avatar ms-1">AD</div>
+      </div>
+    </div>
+
+    <!-- CONTENT BODY -->
+    <div class="content-body">
+
+      <!-- ── Section 1: Page Heading ── -->
+      <div class="d-flex align-items-center justify-content-between mb-4">
+        <div>
+          <h1 class="page-heading">Dashboard Overview</h1>
+          <p class="page-date mb-0 mt-1"><i class="fas fa-calendar-alt me-1 opacity-50"></i>September 2026</p>
+        </div>
+      </div>
+
+      <!-- ── Section 2: Stat Cards ── -->
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-xl-4 g-4 mb-4">
+
+        <!-- Total Bookings -->
+        <div class="col">
+          <div class="stat-card">
+            <div class="stat-icon green">
+              <i class="fas fa-ticket"></i>
+            </div>
+            <div class="stat-label">Total Bookings</div>
+            <div class="stat-value">148</div>
+            <p class="stat-sub text-success"><i class="fas fa-arrow-up me-1"></i>+12 this month</p>
+          </div>
+        </div>
+
+        <!-- Upcoming Treks -->
+        <div class="col">
+          <div class="stat-card">
+            <div class="stat-icon gold">
+              <i class="fas fa-mountain"></i>
+            </div>
+            <div class="stat-label">Upcoming Treks</div>
+            <div class="stat-value">12</div>
+            <p class="stat-sub text-muted"><i class="fas fa-clock me-1"></i>Next: Oct 18</p>
+          </div>
+        </div>
+
+        <!-- Available Seats -->
+        <div class="col">
+          <div class="stat-card">
+            <div class="stat-icon blue">
+              <i class="fas fa-chair"></i>
+            </div>
+            <div class="stat-label">Available Seats</div>
+            <div class="stat-value">186</div>
+            <p class="stat-sub text-muted"><i class="fas fa-layer-group me-1"></i>Across all treks</p>
+          </div>
+        </div>
+
+        <!-- Revenue -->
+        <div class="col">
+          <div class="stat-card">
+            <div class="stat-icon red">
+              <i class="fas fa-indian-rupee-sign"></i>
+            </div>
+            <div class="stat-label">Revenue</div>
+            <div class="stat-value">₹8,42,500</div>
+            <p class="stat-sub text-success"><i class="fas fa-arrow-up me-1"></i>+18% vs last month</p>
+          </div>
+        </div>
+
+      </div><!-- /stat cards row -->
+
+      <!-- ── Section 3: Bookings + Trek Performance ── -->
+      <div class="row g-4 mb-4">
+
+        <!-- Recent Bookings -->
+        <div class="col-lg-7">
+          <div class="admin-card">
+            <div class="card-header">
+              <span>Recent Bookings</span>
+              <button class="btn-outline-custom">View All</button>
+            </div>
+            <div class="table-responsive">
+              <table class="admin-table table table-hover mb-0">
+                <thead>
+                  <tr>
+                    <th>Booking ID</th>
+                    <th>Customer</th>
+                    <th>Trek</th>
+                    <th>Date</th>
+                    <th>Guests</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><span class="booking-id">TRK-1048</span></td>
+                    <td>Rahul Sharma</td>
+                    <td>Sandakphu Trek</td>
+                    <td>18 Oct 2026</td>
+                    <td>2</td>
+                    <td>₹29,998</td>
+                    <td><span class="status-badge status-confirmed">Confirmed</span></td>
+                  </tr>
+                  <tr>
+                    <td><span class="booking-id">TRK-1047</span></td>
+                    <td>Priya Patel</td>
+                    <td>Kedarkantha Trek</td>
+                    <td>25 Oct 2026</td>
+                    <td>3</td>
+                    <td>₹38,997</td>
+                    <td><span class="status-badge status-confirmed">Confirmed</span></td>
+                  </tr>
+                  <tr>
+                    <td><span class="booking-id">TRK-1046</span></td>
+                    <td>Arjun Mehta</td>
+                    <td>Hampta Pass</td>
+                    <td>2 Nov 2026</td>
+                    <td>2</td>
+                    <td>₹32,998</td>
+                    <td><span class="status-badge status-pending">Pending</span></td>
+                  </tr>
+                  <tr>
+                    <td><span class="booking-id">TRK-1045</span></td>
+                    <td>Sneha Gupta</td>
+                    <td>Valley of Flowers</td>
+                    <td>10 Nov 2026</td>
+                    <td>4</td>
+                    <td>₹61,996</td>
+                    <td><span class="status-badge status-confirmed">Confirmed</span></td>
+                  </tr>
+                  <tr>
+                    <td><span class="booking-id">TRK-1044</span></td>
+                    <td>Vikram Singh</td>
+                    <td>Roopkund Trek</td>
+                    <td>15 Nov 2026</td>
+                    <td>2</td>
+                    <td>₹45,998</td>
+                    <td><span class="status-badge status-pending">Pending</span></td>
+                  </tr>
+                  <tr>
+                    <td><span class="booking-id">TRK-1043</span></td>
+                    <td>Ananya Roy</td>
+                    <td>Chopta Trek</td>
+                    <td>20 Nov 2026</td>
+                    <td>3</td>
+                    <td>₹35,997</td>
+                    <td><span class="status-badge status-cancelled">Cancelled</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Trek Occupancy -->
+        <div class="col-lg-5">
+          <div class="admin-card">
+            <div class="card-header">
+              <span>Trek Occupancy</span>
+            </div>
+            <div>
+
+              <div class="trek-perf-item">
+                <div class="trek-perf-name">Sandakphu Trek</div>
+                <div class="trek-perf-seats">12 / 20 booked</div>
+                <div class="progress">
+                  <div class="progress-bar bg-primary-custom" style="width:60%" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+                <div class="occupancy-meta mt-1"><span>60%</span><span>8 left</span></div>
+              </div>
+
+              <div class="trek-perf-item">
+                <div class="trek-perf-name">Kedarkantha Trek</div>
+                <div class="trek-perf-seats">8 / 20 booked</div>
+                <div class="progress">
+                  <div class="progress-bar bg-primary-custom" style="width:40%" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+                <div class="occupancy-meta mt-1"><span>40%</span><span>12 left</span></div>
+              </div>
+
+              <div class="trek-perf-item">
+                <div class="trek-perf-name">Hampta Pass</div>
+                <div class="trek-perf-seats">14 / 20 booked</div>
+                <div class="progress">
+                  <div class="progress-bar bg-accent-custom" style="width:70%" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+                <div class="occupancy-meta mt-1"><span>70%</span><span>6 left</span></div>
+              </div>
+
+              <div class="trek-perf-item">
+                <div class="trek-perf-name">Valley of Flowers</div>
+                <div class="trek-perf-seats">10 / 20 booked</div>
+                <div class="progress">
+                  <div class="progress-bar bg-primary-custom" style="width:50%" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+                <div class="occupancy-meta mt-1"><span>50%</span><span>10 left</span></div>
+              </div>
+
+              <div class="trek-perf-item">
+                <div class="trek-perf-name">Roopkund Trek</div>
+                <div class="trek-perf-seats">16 / 20 booked</div>
+                <div class="progress">
+                  <div class="progress-bar bg-danger-custom" style="width:80%" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+                <div class="occupancy-meta mt-1"><span>80%</span><span>4 left</span></div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /section 3 -->
+
+      <!-- ── Section 4: Trek Inventory Table ── -->
+      <div class="row">
+        <div class="col-12">
+          <div class="admin-card">
+            <div class="card-header">
+              <span>Trek Inventory</span>
+              <button class="btn-accent"><i class="fas fa-plus me-1"></i>Add New Trek</button>
+            </div>
+            <div class="table-responsive">
+              <table class="admin-table table table-hover mb-0">
+                <thead>
+                  <tr>
+                    <th>Trek</th>
+                    <th>Date</th>
+                    <th>Capacity</th>
+                    <th>Booked</th>
+                    <th>Available</th>
+                    <th style="min-width:130px">Occupancy</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="fw-600">Sandakphu Trek</td>
+                    <td>18 Oct 2026</td>
+                    <td>20</td>
+                    <td>12</td>
+                    <td>8</td>
+                    <td>
+                      <div class="occupancy-wrap">
+                        <div class="progress">
+                          <div class="progress-bar bg-primary-custom" style="width:60%" role="progressbar"></div>
+                        </div>
+                        <div class="occupancy-meta"><span>60%</span></div>
+                      </div>
+                    </td>
+                    <td><span class="status-badge status-confirmed">Open</span></td>
+                  </tr>
+                  <tr>
+                    <td class="fw-600">Kedarkantha Trek</td>
+                    <td>25 Oct 2026</td>
+                    <td>20</td>
+                    <td>8</td>
+                    <td>12</td>
+                    <td>
+                      <div class="occupancy-wrap">
+                        <div class="progress">
+                          <div class="progress-bar bg-primary-custom" style="width:40%" role="progressbar"></div>
+                        </div>
+                        <div class="occupancy-meta"><span>40%</span></div>
+                      </div>
+                    </td>
+                    <td><span class="status-badge status-confirmed">Open</span></td>
+                  </tr>
+                  <tr>
+                    <td class="fw-600">Hampta Pass Trek</td>
+                    <td>2 Nov 2026</td>
+                    <td>20</td>
+                    <td>14</td>
+                    <td>6</td>
+                    <td>
+                      <div class="occupancy-wrap">
+                        <div class="progress">
+                          <div class="progress-bar bg-accent-custom" style="width:70%" role="progressbar"></div>
+                        </div>
+                        <div class="occupancy-meta"><span>70%</span></div>
+                      </div>
+                    </td>
+                    <td><span class="status-badge status-confirmed">Open</span></td>
+                  </tr>
+                  <tr>
+                    <td class="fw-600">Valley of Flowers</td>
+                    <td>10 Nov 2026</td>
+                    <td>20</td>
+                    <td>10</td>
+                    <td>10</td>
+                    <td>
+                      <div class="occupancy-wrap">
+                        <div class="progress">
+                          <div class="progress-bar bg-primary-custom" style="width:50%" role="progressbar"></div>
+                        </div>
+                        <div class="occupancy-meta"><span>50%</span></div>
+                      </div>
+                    </td>
+                    <td><span class="status-badge status-confirmed">Open</span></td>
+                  </tr>
+                  <tr>
+                    <td class="fw-600">Roopkund Trek</td>
+                    <td>15 Nov 2026</td>
+                    <td>20</td>
+                    <td>16</td>
+                    <td>4</td>
+                    <td>
+                      <div class="occupancy-wrap">
+                        <div class="progress">
+                          <div class="progress-bar bg-danger-custom" style="width:80%" role="progressbar"></div>
+                        </div>
+                        <div class="occupancy-meta"><span>80%</span></div>
+                      </div>
+                    </td>
+                    <td><span class="status-badge status-pending">Filling Fast</span></td>
+                  </tr>
+                  <tr>
+                    <td class="fw-600">Chopta Trek</td>
+                    <td>20 Nov 2026</td>
+                    <td>20</td>
+                    <td>5</td>
+                    <td>15</td>
+                    <td>
+                      <div class="occupancy-wrap">
+                        <div class="progress">
+                          <div class="progress-bar bg-primary-custom" style="width:25%" role="progressbar"></div>
+                        </div>
+                        <div class="occupancy-meta"><span>25%</span></div>
+                      </div>
+                    </td>
+                    <td><span class="status-badge status-confirmed">Open</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div><!-- /section 4 -->
+
+    </div><!-- /content-body -->
+  </div><!-- /admin-content -->
+</div><!-- /d-flex -->
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/main.js" defer></script>
+<script>
+  function toggleSidebar() {
+    const sidebar  = document.getElementById('adminSidebar');
+    const overlay  = document.getElementById('sidebar-overlay');
+    const content  = document.getElementById('adminContent');
+    const isWide   = window.innerWidth >= 992;
+
+    if (isWide) {
+      // Desktop: push content
+      sidebar.classList.toggle('collapsed');
+      content.classList.toggle('expanded');
+    } else {
+      // Mobile: slide over + overlay
+      sidebar.classList.toggle('open');
+      const isOpen = sidebar.classList.contains('open');
+      overlay.style.display = isOpen ? 'block' : 'none';
+    }
+  }
+
+  // Reset sidebar state on resize
+  window.addEventListener('resize', () => {
+    const sidebar  = document.getElementById('adminSidebar');
+    const overlay  = document.getElementById('sidebar-overlay');
+    const content  = document.getElementById('adminContent');
+    if (window.innerWidth >= 992) {
+      sidebar.classList.remove('open');
+      overlay.style.display = 'none';
+    } else {
+      sidebar.classList.remove('collapsed');
+      content.classList.remove('expanded');
+    }
+  });
+
+  // Sidebar nav link active state
+  document.querySelectorAll('.sidebar-nav a').forEach(link => {
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+      document.querySelectorAll('.sidebar-nav a').forEach(l => l.classList.remove('active'));
+      this.classList.add('active');
+    });
+  });
+</script>
+</body>
+</html>
+

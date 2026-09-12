@@ -1,0 +1,574 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>All Treks — Trek Adventures</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body data-page="treks" class="treks-page">
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar navbar-expand-lg fixed-top" id="mainNav" data-transparent="false">
+    <div class="container">
+      <a class="navbar-brand" href="index.html" style="color: var(--primary);">
+        <i class="fa-solid fa-mountain-sun me-2"></i>Trek<span>Adventures</span>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu"
+        aria-controls="navMenu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navMenu">
+        <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-1">
+          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link active" href="treks.html">Treks</a></li>
+          <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+          <li class="nav-item ms-lg-3">
+            <a class="btn btn-primary-custom btn-sm px-4" href="booking.html">Book Now</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ===== PAGE HERO ===== -->
+  <section class="page-hero">
+    <div class="page-hero-overlay"></div>
+    <div class="container position-relative z-1">
+      <nav aria-label="breadcrumb" class="mb-3">
+        <ol class="breadcrumb breadcrumb-hero">
+          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Treks</li>
+        </ol>
+      </nav>
+      <h1 class="page-hero-title">Explore All Treks</h1>
+      <p class="page-hero-sub">Discover handpicked trekking routes across the Himalayas</p>
+    </div>
+  </section>
+
+  <!-- ===== FILTER BAR ===== -->
+  <section class="filter-section py-4">
+    <div class="container">
+      <div id="trek-filters" class="filter-bar">
+        <div class="row g-3 align-items-center">
+
+          <!-- Destination -->
+          <div class="col-6 col-md-3 col-lg flex-grow-1">
+            <label class="filter-label" for="filter-dest">
+              <i class="fa-solid fa-location-dot me-1"></i>Destination
+            </label>
+            <select id="filter-dest" class="form-select filter-select">
+              <option value="">All Destinations</option>
+              <option value="West Bengal">West Bengal</option>
+              <option value="Uttarakhand">Uttarakhand</option>
+              <option value="Himachal Pradesh">Himachal Pradesh</option>
+              <option value="Sikkim">Sikkim</option>
+              <option value="Jammu &amp; Kashmir">Jammu &amp; Kashmir</option>
+            </select>
+          </div>
+
+          <!-- Difficulty -->
+          <div class="col-6 col-md-3 col-lg flex-grow-1">
+            <label class="filter-label" for="filter-diff">
+              <i class="fa-solid fa-chart-line me-1"></i>Difficulty
+            </label>
+            <select id="filter-diff" class="form-select filter-select">
+              <option value="">All Difficulties</option>
+              <option value="easy">Easy</option>
+              <option value="moderate">Moderate</option>
+              <option value="hard">Hard</option>
+            </select>
+          </div>
+
+          <!-- Duration -->
+          <div class="col-6 col-md-3 col-lg flex-grow-1">
+            <label class="filter-label" for="filter-dur">
+              <i class="fa-regular fa-clock me-1"></i>Duration
+            </label>
+            <select id="filter-dur" class="form-select filter-select">
+              <option value="">All Durations</option>
+              <option value="4-5">4–5 Days</option>
+              <option value="6-7">6–7 Days</option>
+              <option value="8+">8+ Days</option>
+            </select>
+          </div>
+
+          <!-- Price Range -->
+          <div class="col-6 col-md-3 col-lg flex-grow-1">
+            <label class="filter-label" for="filter-price">
+              <i class="fa-solid fa-indian-rupee-sign me-1"></i>Price Range
+            </label>
+            <select id="filter-price" class="form-select filter-select">
+              <option value="">All Prices</option>
+              <option value="10000-15000">₹10,000 – ₹15,000</option>
+              <option value="15001-20000">₹15,001 – ₹20,000</option>
+              <option value="20001-30000">₹20,001 – ₹30,000</option>
+            </select>
+          </div>
+
+          <!-- Reset -->
+          <div class="col-12 col-md-auto">
+            <label class="filter-label d-none d-md-block">&nbsp;</label>
+            <button id="filter-reset" class="btn btn-outline-custom w-100">
+              <i class="fa-solid fa-rotate-left me-2"></i>Reset
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Results count -->
+      <div class="d-flex align-items-center justify-content-between mt-3 mb-2">
+        <p class="mb-0 text-muted-custom">
+          Showing <span id="results-count" class="fw-semibold text-primary-custom">6</span> treks
+        </p>
+        <p class="mb-0 text-muted-custom small">Prices per person, inclusive of taxes</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== TREK CARDS GRID ===== -->
+  <section class="treks-grid-section pb-5">
+    <div class="container">
+      <div class="row g-4" id="treks-grid">
+
+        <!-- Card 1: Sandakphu Trek -->
+        <div class="col-12 col-md-6 col-lg-4 trek-card-wrap"
+          data-destination="West Bengal"
+          data-difficulty="moderate"
+          data-duration="6-7"
+          data-price="14999">
+          <div class="trek-card h-100">
+            <div class="trek-image-wrap">
+              <img src="https://images.unsplash.com/photo-1571952537-2d8bb8b7e690?w=600&q=80"
+                alt="Sandakphu Trek" class="trek-img" loading="lazy" />
+              <span class="difficulty-badge badge-moderate">Moderate</span>
+            </div>
+            <div class="card-body d-flex flex-column p-4">
+              <div class="trek-location mb-1">
+                <i class="fa-solid fa-location-dot me-1"></i>West Bengal
+              </div>
+              <h5 class="trek-title">Sandakphu Trek</h5>
+              <p class="trek-desc">
+                Highest peak in West Bengal with stunning views of Everest and Kanchenjunga
+              </p>
+              <div class="trek-meta-row">
+                <span class="trek-meta-item">
+                  <i class="fa-regular fa-clock"></i> 6 Days
+                </span>
+                <span class="trek-meta-item">
+                  <i class="fa-solid fa-mountain"></i> Moderate
+                </span>
+              </div>
+              <div class="trek-price-row mt-auto">
+                <div>
+                  <span class="trek-price">₹14,999</span>
+                  <span class="trek-price-label">/per person</span>
+                </div>
+                <span class="seats-badge">
+                  <i class="fa-solid fa-users me-1"></i>8 seats left
+                </span>
+              </div>
+              <a href="trek-detail.html?trek=sandakphu" class="btn btn-primary-custom w-100 mt-3 trek-details-link">
+                View Details <i class="fa-solid fa-arrow-right ms-2"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2: Kedarkantha Trek -->
+        <div class="col-12 col-md-6 col-lg-4 trek-card-wrap"
+          data-destination="Uttarakhand"
+          data-difficulty="easy"
+          data-duration="4-5"
+          data-price="12999">
+          <div class="trek-card h-100">
+            <div class="trek-image-wrap">
+              <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&q=80"
+                alt="Kedarkantha Trek" class="trek-img" loading="lazy" />
+              <span class="difficulty-badge badge-easy">Easy-Moderate</span>
+            </div>
+            <div class="card-body d-flex flex-column p-4">
+              <div class="trek-location mb-1">
+                <i class="fa-solid fa-location-dot me-1"></i>Uttarakhand
+              </div>
+              <h5 class="trek-title">Kedarkantha Trek</h5>
+              <p class="trek-desc">
+                Perfect winter trek with snow-covered meadows and panoramic Himalayan views
+              </p>
+              <div class="trek-meta-row">
+                <span class="trek-meta-item">
+                  <i class="fa-regular fa-clock"></i> 5 Days
+                </span>
+                <span class="trek-meta-item">
+                  <i class="fa-solid fa-mountain"></i> Easy-Moderate
+                </span>
+              </div>
+              <div class="trek-price-row mt-auto">
+                <div>
+                  <span class="trek-price">₹12,999</span>
+                  <span class="trek-price-label">/per person</span>
+                </div>
+                <span class="seats-badge seats-available">
+                  <i class="fa-solid fa-users me-1"></i>12 seats left
+                </span>
+              </div>
+              <a href="trek-detail.html?trek=kedarkantha" class="btn btn-primary-custom w-100 mt-3 trek-details-link">
+                View Details <i class="fa-solid fa-arrow-right ms-2"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 3: Hampta Pass Trek -->
+        <div class="col-12 col-md-6 col-lg-4 trek-card-wrap"
+          data-destination="Himachal Pradesh"
+          data-difficulty="moderate"
+          data-duration="4-5"
+          data-price="16499">
+          <div class="trek-card h-100">
+            <div class="trek-image-wrap">
+              <img src="https://images.unsplash.com/photo-1551632811-561732d1e306?w=600&q=80"
+                alt="Hampta Pass Trek" class="trek-img" loading="lazy" />
+              <span class="difficulty-badge badge-moderate">Moderate</span>
+            </div>
+            <div class="card-body d-flex flex-column p-4">
+              <div class="trek-location mb-1">
+                <i class="fa-solid fa-location-dot me-1"></i>Himachal Pradesh
+              </div>
+              <h5 class="trek-title">Hampta Pass Trek</h5>
+              <p class="trek-desc">
+                A dramatic crossover from Kullu valley to the barren landscape of Lahaul
+              </p>
+              <div class="trek-meta-row">
+                <span class="trek-meta-item">
+                  <i class="fa-regular fa-clock"></i> 5 Days
+                </span>
+                <span class="trek-meta-item">
+                  <i class="fa-solid fa-mountain"></i> Moderate
+                </span>
+              </div>
+              <div class="trek-price-row mt-auto">
+                <div>
+                  <span class="trek-price">₹16,499</span>
+                  <span class="trek-price-label">/per person</span>
+                </div>
+                <span class="seats-badge seats-low">
+                  <i class="fa-solid fa-users me-1"></i>6 seats left
+                </span>
+              </div>
+              <a href="trek-detail.html?trek=hampta-pass" class="btn btn-primary-custom w-100 mt-3 trek-details-link">
+                View Details <i class="fa-solid fa-arrow-right ms-2"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 4: Valley of Flowers -->
+        <div class="col-12 col-md-6 col-lg-4 trek-card-wrap"
+          data-destination="Uttarakhand"
+          data-difficulty="moderate"
+          data-duration="6-7"
+          data-price="15499">
+          <div class="trek-card h-100">
+            <div class="trek-image-wrap">
+              <img src="https://images.unsplash.com/photo-1527489377706-5bf97e608852?w=600&q=80"
+                alt="Valley of Flowers" class="trek-img" loading="lazy" />
+              <span class="difficulty-badge badge-moderate">Moderate</span>
+            </div>
+            <div class="card-body d-flex flex-column p-4">
+              <div class="trek-location mb-1">
+                <i class="fa-solid fa-location-dot me-1"></i>Uttarakhand
+              </div>
+              <h5 class="trek-title">Valley of Flowers</h5>
+              <p class="trek-desc">
+                UNESCO World Heritage site with over 300 species of wildflowers in full bloom
+              </p>
+              <div class="trek-meta-row">
+                <span class="trek-meta-item">
+                  <i class="fa-regular fa-clock"></i> 6 Days
+                </span>
+                <span class="trek-meta-item">
+                  <i class="fa-solid fa-mountain"></i> Moderate
+                </span>
+              </div>
+              <div class="trek-price-row mt-auto">
+                <div>
+                  <span class="trek-price">₹15,499</span>
+                  <span class="trek-price-label">/per person</span>
+                </div>
+                <span class="seats-badge seats-available">
+                  <i class="fa-solid fa-users me-1"></i>10 seats left
+                </span>
+              </div>
+              <a href="trek-detail.html?trek=valley-of-flowers" class="btn btn-primary-custom w-100 mt-3 trek-details-link">
+                View Details <i class="fa-solid fa-arrow-right ms-2"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 5: Roopkund Trek -->
+        <div class="col-12 col-md-6 col-lg-4 trek-card-wrap"
+          data-destination="Uttarakhand"
+          data-difficulty="hard"
+          data-duration="8+"
+          data-price="22999">
+          <div class="trek-card h-100">
+            <div class="trek-image-wrap">
+              <img src="https://images.unsplash.com/photo-1506197603052-3cc9c3a201bd?w=600&q=80"
+                alt="Roopkund Trek" class="trek-img" loading="lazy" />
+              <span class="difficulty-badge badge-hard">Hard</span>
+            </div>
+            <div class="card-body d-flex flex-column p-4">
+              <div class="trek-location mb-1">
+                <i class="fa-solid fa-location-dot me-1"></i>Uttarakhand
+              </div>
+              <h5 class="trek-title">Roopkund Trek</h5>
+              <p class="trek-desc">
+                The mysterious skeleton lake at 5029m, one of India's most adventurous high-altitude treks
+              </p>
+              <div class="trek-meta-row">
+                <span class="trek-meta-item">
+                  <i class="fa-regular fa-clock"></i> 9 Days
+                </span>
+                <span class="trek-meta-item">
+                  <i class="fa-solid fa-mountain"></i> Hard
+                </span>
+              </div>
+              <div class="trek-price-row mt-auto">
+                <div>
+                  <span class="trek-price">₹22,999</span>
+                  <span class="trek-price-label">/per person</span>
+                </div>
+                <span class="seats-badge seats-critical">
+                  <i class="fa-solid fa-users me-1"></i>4 seats left
+                </span>
+              </div>
+              <a href="trek-detail.html?trek=roopkund" class="btn btn-primary-custom w-100 mt-3 trek-details-link">
+                View Details <i class="fa-solid fa-arrow-right ms-2"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 6: Chopta Tungnath Trek -->
+        <div class="col-12 col-md-6 col-lg-4 trek-card-wrap"
+          data-destination="Uttarakhand"
+          data-difficulty="easy"
+          data-duration="4-5"
+          data-price="11999">
+          <div class="trek-card h-100">
+            <div class="trek-image-wrap">
+              <img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?w=600&q=80"
+                alt="Chopta Tungnath Trek" class="trek-img" loading="lazy" />
+              <span class="difficulty-badge badge-easy">Easy</span>
+            </div>
+            <div class="card-body d-flex flex-column p-4">
+              <div class="trek-location mb-1">
+                <i class="fa-solid fa-location-dot me-1"></i>Uttarakhand
+              </div>
+              <h5 class="trek-title">Chopta Tungnath Trek</h5>
+              <p class="trek-desc">
+                Visit the world's highest Shiva temple at Tungnath and the iconic Chandrashila peak
+              </p>
+              <div class="trek-meta-row">
+                <span class="trek-meta-item">
+                  <i class="fa-regular fa-clock"></i> 4 Days
+                </span>
+                <span class="trek-meta-item">
+                  <i class="fa-solid fa-mountain"></i> Easy
+                </span>
+              </div>
+              <div class="trek-price-row mt-auto">
+                <div>
+                  <span class="trek-price">₹11,999</span>
+                  <span class="trek-price-label">/per person</span>
+                </div>
+                <span class="seats-badge seats-available">
+                  <i class="fa-solid fa-users me-1"></i>15 seats left
+                </span>
+              </div>
+              <a href="trek-detail.html?trek=chopta-tungnath" class="btn btn-primary-custom w-100 mt-3 trek-details-link">
+                View Details <i class="fa-solid fa-arrow-right ms-2"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /#treks-grid -->
+
+      <!-- No Results -->
+      <div id="no-results" class="no-results-box text-center py-5" hidden>
+        <i class="fa-solid fa-magnifying-glass fa-3x mb-3 text-muted-custom"></i>
+        <h4 class="fw-semibold mb-2">No treks found</h4>
+        <p class="text-muted-custom mb-4">No treks match your filters. Try resetting.</p>
+        <button class="btn btn-primary-custom px-5" onclick="document.getElementById('filter-reset').click()">
+          <i class="fa-solid fa-rotate-left me-2"></i>Reset Filters
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="row g-5">
+
+        <!-- Brand col -->
+        <div class="col-12 col-lg-4">
+          <div class="footer-brand mb-4">
+            <i class="fa-solid fa-mountain-sun me-2"></i>Trek<span>Adventures</span>
+          </div>
+          <p class="footer-tagline">
+            Your trusted partner for unforgettable Himalayan experiences. Safety, adventure, and memories that last a lifetime.
+          </p>
+          <div class="footer-socials mt-4">
+            <a href="#" class="footer-social-link" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+            <a href="#" class="footer-social-link" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+            <a href="#" class="footer-social-link" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+            <a href="#" class="footer-social-link" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+          </div>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="col-6 col-lg-2">
+          <h6 class="footer-heading">Quick Links</h6>
+          <ul class="footer-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="treks.html">All Treks</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+
+        <!-- Popular Treks -->
+        <div class="col-6 col-lg-2">
+          <h6 class="footer-heading">Popular Treks</h6>
+          <ul class="footer-links">
+            <li><a href="trek-detail.html?trek=sandakphu">Sandakphu</a></li>
+            <li><a href="trek-detail.html?trek=kedarkantha">Kedarkantha</a></li>
+            <li><a href="trek-detail.html?trek=hampta-pass">Hampta Pass</a></li>
+            <li><a href="trek-detail.html?trek=roopkund">Roopkund</a></li>
+            <li><a href="trek-detail.html?trek=valley-of-flowers">Valley of Flowers</a></li>
+          </ul>
+        </div>
+
+        <!-- Contact Info -->
+        <div class="col-12 col-lg-4">
+          <h6 class="footer-heading">Get In Touch</h6>
+          <ul class="footer-contact-list">
+            <li>
+              <i class="fa-solid fa-location-dot"></i>
+              <span>14 Hill Station Road, Darjeeling, West Bengal 734101</span>
+            </li>
+            <li>
+              <i class="fa-solid fa-phone"></i>
+              <a href="tel:+919876543210">+91 98765 43210</a>
+            </li>
+            <li>
+              <i class="fa-solid fa-envelope"></i>
+              <a href="mailto:hello@trekadventures.in">hello@trekadventures.in</a>
+            </li>
+            <li>
+              <i class="fa-regular fa-clock"></i>
+              <span>Mon–Sat: 9:00 AM – 6:00 PM IST</span>
+            </li>
+          </ul>
+        </div>
+
+      </div><!-- /.row -->
+
+      <hr class="footer-divider" />
+
+      <div class="footer-bottom">
+        <p class="mb-0">&copy; 2026 TrekAdventures. All rights reserved. Crafted with <i class="fa-solid fa-heart text-accent"></i> for the mountains.</p>
+        <div class="footer-bottom-links">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+          <a href="#">Cancellation Policy</a>
+        </div>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- ===== SCRIPTS ===== -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    /* ---- Trek Filter Logic ---- */
+    (function () {
+      const filterDest  = document.getElementById('filter-dest');
+      const filterDiff  = document.getElementById('filter-diff');
+      const filterDur   = document.getElementById('filter-dur');
+      const filterPrice = document.getElementById('filter-price');
+      const resetBtn    = document.getElementById('filter-reset');
+      const cards       = document.querySelectorAll('.trek-card-wrap');
+      const noResults   = document.getElementById('no-results');
+      const countEl     = document.getElementById('results-count');
+
+      function applyFilters() {
+        const dest  = filterDest.value;
+        const diff  = filterDiff.value;
+        const dur   = filterDur.value;
+        const price = filterPrice.value;
+
+        let visible = 0;
+
+        cards.forEach(function (card) {
+          const cDest  = card.dataset.destination;
+          const cDiff  = card.dataset.difficulty;
+          const cDur   = card.dataset.duration;
+          const cPrice = parseInt(card.dataset.price, 10);
+
+          let show = true;
+
+          if (dest && cDest !== dest) show = false;
+          if (diff && cDiff !== diff) show = false;
+          if (dur  && cDur  !== dur)  show = false;
+
+          if (price) {
+            const parts = price.split('-');
+            const min = parseInt(parts[0], 10);
+            const max = parseInt(parts[1], 10);
+            if (cPrice < min || cPrice > max) show = false;
+          }
+
+          if (show) {
+            card.style.display = '';
+            visible++;
+          } else {
+            card.style.display = 'none';
+          }
+        });
+
+        countEl.textContent = visible;
+        noResults.hidden = visible > 0;
+      }
+
+      [filterDest, filterDiff, filterDur, filterPrice].forEach(function (el) {
+        el.addEventListener('change', applyFilters);
+      });
+
+      resetBtn.addEventListener('click', function () {
+        filterDest.value  = '';
+        filterDiff.value  = '';
+        filterDur.value   = '';
+        filterPrice.value = '';
+        applyFilters();
+      });
+
+      applyFilters();
+    })();
+  </script>
+
+</body>
+</html>
