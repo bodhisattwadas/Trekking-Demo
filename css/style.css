@@ -394,6 +394,4 @@ img { max-width: 100%; display: block; }
   .hero-stats { flex-direction: column; gap: 1rem; }
 }
 
-/* -- Demo Banner offset for fixed navbar -- */
-.main-navbar { top: 34px; }
-@media (max-width: 575.98px) { .main-navbar { top: 44px; } }
+
